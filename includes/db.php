@@ -49,6 +49,7 @@
         }
        
         if(true_or_false($tabla)){
+            $_SESSION['nombre'] = $nombre;
             header("Location: session.php");
             exit();
        
