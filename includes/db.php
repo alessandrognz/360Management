@@ -1,4 +1,6 @@
 <?php
+    session_start();
+
     $Ip = "127.0.0.1";
     $Puerto = 3306;
     $Usuario = "root";
@@ -6,7 +8,6 @@
     $DB_nombre = "users";
 
     $Coneccion = new mysqli($Ip,$Usuario,$Contrasenia,$DB_nombre,$Puerto);
-
 
     if ($Coneccion->connect_error) {
         die("Conexión fallida: " . $Coneccion->connect_error);
@@ -59,38 +60,31 @@
         // FIN - Resultados de 1 o 0 //
 
     }
-    function INICIAR_SESION($email = '', $contrasena = '') {
+    function INICIAR_SESION($email = '',$contrasena = '') {
         global $Coneccion;
 
-        $comando = $Coneccion->prepare('CALL INICIAR_SESION(?,?);');
-        $comando->bind_param("ss", $email, $contrasena);
+        $comando = $Coneccion->prepare('CALL VERIFICAR_EMAIL(?);');
+        $comando->bind_param("s", $email);
         $comando->execute();
 
-        $result = $comando->get_result();
+        $_email = $comando->get_result();
+        $usuario = $_email->fetch_assoc();
+        $comando->close();
+        $_email = $usuario['email'];
+
+        $comando = $Coneccion->prepare('CALL VERIFICAR_CONTRASENA(?);');
+        $comando->bind_param("s", $email);
+        $comando->execute();
+
+        $_contrasena = $comando->get_result();
+        $usuario = $_contrasena->fetch_assoc();
         $comando->close();
 
-        
-        if ($result && $result->num_rows > 0) {
-            $usuario = $result->fetch_assoc();
-            $result->free();
-            
-            $_SESSION['id_usuario'] = $usuario['id_usuario'];
+        if (password_verify($contrasena, $_contrasena = $usuario['contrasena'])){
             $_SESSION['nombre'] = $usuario['nombre'];
-            $_SESSION['id_puesto'] = $usuario['id_puesto'];
-
-            $hash = $usuario['contrasena'];
-            $valida = password_verify($contrasena, $hash) || $contrasena === $hash;
-
-            if ($valida) {
-                if (session_status() === PHP_SESSION_NONE) {
-                    session_start();
-                }
-                $_SESSION['email'] = $usuario['email'];
-                header("Location: session.php");
-                exit();
-            }
-        }
-
+            header('Location: session.php');
+            exit();
+        };
         return false;
     }
 ?>

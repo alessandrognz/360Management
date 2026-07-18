@@ -76,14 +76,27 @@ end
 DELIMITER ;
 
 DELIMITER //
-create procedure INICIAR_SESION(_email varchar(100), _contrasena)
+create procedure VERIFICAR_EMAIL(_email varchar(100))
 begin
-	select id_usuario, nombre, id_puesto, email, contrasena
+	select email
     from usuarios
-    where email = _email and eliminado = 0 and contrasena = _contrasena;
+    where email = _email and eliminado = 0;
 end
 //
 DELIMITER ; 
+
+DELIMITER //
+
+DELIMITER //
+CREATE PROCEDURE VERIFICAR_CONTRASENA(_email VARCHAR(100))
+BEGIN
+    SELECT contrasena, nombre
+    FROM usuarios
+    WHERE email = _email AND eliminado = 0;
+END
+//
+DELIMITER ;
+
 
 create table tareas(
 	id_tarea int unsigned auto_increment primary key,

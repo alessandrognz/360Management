@@ -4,9 +4,9 @@
   if($_SERVER['REQUEST_METHOD']=== 'POST') {
 
     $email = $_REQUEST['email'];
-    $Contrasena = $_POST['contrasena'] ?? '';
+    $contrasena = $_POST['contrasena'] ?? '';
 
-    INICIAR_SESION($email, $Contrasena);
+    INICIAR_SESION($email, $contrasena);
 
   }
 ?>

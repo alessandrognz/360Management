@@ -1,3 +1,7 @@
+<?php 
+    require 'includes/db.php'; 
+    require 'includes/nav.php';
+    ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,13 +12,8 @@
     <title>Inicio</title>
 </head>
 <body>
-    <?php 
-        require 'includes/nav.php';
-        require 'includes/db.php';
-
-        echo $_SESSION['nombre'], 'ha iniciado sesión.';
-
-    
+    <?php
+        echo $_SESSION['nombre'], ' ha iniciado sesión.';
     ?>
 </body>
 </html>
