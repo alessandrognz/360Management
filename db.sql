@@ -65,12 +65,15 @@ insert into puesto(id_departamento,nombre_puesto,descripcion_puesto) values
 DELIMITER //
 create procedure INSERTAR_USUARIO(in _id_puesto int , in _nombre varchar(50), in _email varchar(100), in _contrasena varchar(250))
 begin
-	-- consulta 
-		insert into usuarios(id_puesto,nombre,email,contrasena) values
-        (_id_puesto,_nombre,_email,_contrasena);
+    insert into usuarios(id_puesto,nombre,email,contrasena) values
+    (_id_puesto,_nombre,_email,_contrasena);
 
-        select row_count() as response; 
-
+    if row_count() > 0 then
+        select u.id_usuario, u.nombre, p.id_departamento
+        from usuarios u
+        join puesto p on u.id_puesto = p.id_puesto
+        where u.id_usuario = last_insert_id();
+    end if;
 end
 //
 DELIMITER ;

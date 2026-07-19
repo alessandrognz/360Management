@@ -16,51 +16,31 @@
     $Coneccion->set_charset("utf8mb4");
 
     function true_or_false($value= []) {
-        return $value["response"] ? 'true' : 'false';
+    return (bool)$value["response"];
     }
 
     function INSERTAR_USUARIO($nombre = '',$email = '',$puesto = 0,$contrasena = ''){
         global $Coneccion;
-        $tabla = [];
 
-
-        //Comando
         $comando = $Coneccion->prepare("CALL INSERTAR_USUARIO(?,?,?,?);");
-   
-   
-        //Llenado de variables
         $comando->bind_param("isss", $puesto,$nombre,$email,$contrasena);
         $comando->execute();
-   
-        //Obtener resultado
-        $result = $comando->get_result();
+
+        $result  = $comando->get_result();
+        $usuario = $result ? $result->fetch_assoc() : null;
+        $result->free();
         $comando->close();
 
-
-        // Inicio - Resultados de 1 o 0 //
-        if ($result) {
-
-            while ($row = $result->fetch_assoc()) {
-                $tabla[] = $row;
-            }
-
-            $tabla = $tabla[0];
-            $result->free();
-        }
-       
-        if(true_or_false($tabla)){
-            $_SESSION['nombre'] = $nombre;
+        if ($usuario) {
+            $_SESSION['nombre']          = $usuario['nombre'];
+            $_SESSION['id_usuario']      = $usuario['id_usuario'];
+            $_SESSION['id_departamento'] = $usuario['id_departamento'];
 
             header("Location: session.php");
             exit();
-       
         } else {
-
-            $mensaje = "Error al registrarse " . $comando->error;
-            echo $mensaje; // echo es para pruebas visibles, se cambiaria por un return
+            echo "Error al registrarse";
         }
-        // FIN - Resultados de 1 o 0 //
-
     }
     function INICIAR_SESION($email = '',$contrasena = '') {
         global $Coneccion;
