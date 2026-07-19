@@ -5,7 +5,7 @@
 
     if (empty($_SESSION['id_usuario'])) {
         session_destroy();
-        header('Location: index.php');
+        header('Location: ../ini.php');
         exit();
     }
 ?>

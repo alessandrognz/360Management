@@ -21,7 +21,7 @@
                 <img src="img/settings.png" alt="">
                 <span>Settings</span>
             </a>
-            <a href="index.html" class="nav-item">
+            <a href="includes/logout.php" class="nav-item">
                 <img src="img/logout.png" alt="">
             </a>
         </div>
