@@ -27,7 +27,7 @@
         $comando->execute();
 
         $result  = $comando->get_result();
-        $usuario = $result ? $result->fetch_assoc() : null;
+        $usuario = $result->fetch_assoc();
         $result->free();
         $comando->close();
 

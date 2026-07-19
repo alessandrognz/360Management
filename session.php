@@ -1,5 +1,6 @@
-<?php 
-    require 'includes/db.php'; 
+<?php
+    require 'includes/db.php';
+    require 'includes/auth_check.php';
     require 'includes/nav.php';
     ?>
 <!DOCTYPE html>
@@ -12,8 +13,6 @@
     <title>Inicio</title>
 </head>
 <body>
-    <?php
-        echo $_SESSION['nombre'], ' ha iniciado sesión.';
-    ?>
+    <h1 class="bienvenida"><?php echo 'Bienvenido, ', $_SESSION['nombre']; ?></h1>
 </body>
 </html>
