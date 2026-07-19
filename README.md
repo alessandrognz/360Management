@@ -23,10 +23,9 @@ Aplicación web de gestión de usuarios/empresa construida con PHP procedural y 
 │   ├─ db.php          Conexión + funciones PHP (llaman a procedimientos almacenados)
 │   └─ auth_check.php  (pendiente) Comprobación de sesión activa
 ├─ css/
-│   ├─ index.css       Estilos públicos (fondo, formulario cristal, botones)
-│   └─ session.css     Estilos del panel (nav Aero)
+│   ├─ index.css       Estilos públicos (fondo, formulario, botones)
+│   └─ session.css     Estilos del panel
 ├─ img/                Imágenes
-├─ fontVista/          Fuente Segoe UI
 ├─ db.sql              Script de creación de la base de datos
 └─ procedure.sql       Reservado para procedimientos adicionales
 ```
@@ -48,7 +47,6 @@ Base de datos `users`, 3 tablas relacionadas con borrado lógico (`eliminado BIT
 
 - ✅ Registro funcional con `password_hash()` (BCRYPT)
 - ✅ Login funcional con `password_verify()`
-- ✅ Estética Aero completa (fondo, formulario cristal, nav)
 - ✅ Base de datos con datos iniciales
 - ⚠️ `session.php` sin protección de acceso
 - ⚠️ Sin logout implementado

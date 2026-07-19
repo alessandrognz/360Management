@@ -15,31 +15,38 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="img/logo-favi.png" />
+    <link rel="icon" type="image/png" href="Icons/logo.png" />
     <link rel="stylesheet" href="css/index.css" />
     <title>Iniciar Sesión</title>
   </head>
   <body>
-    <div class="form">
-      <h1>
-        <a href="ini.php">Iniciar Sesión</a> /
-        <a href="registr.php">Registrarse</a>
-      </h1>
+    <div class="container">
+      <h1>Bienvenido a 360Management!</h1>
+      <p class="subtitle">Introduce tus credenciales para acceder</p>
+
       <form action="ini.php" method="POST">
+        <div class="field">
+          <label for="email">Correo electrónico</label>
+          <input type="email" id="email" name="email" placeholder="Enter your email" />
+        </div>
 
-        CORREO ELECTRÓNICO:
-        <br /><br />
-        <input type="email" name="email" placeholder="Introduce tu dirección de correo" />
-        <br /><br />
+        <div class="field">
+          <div class="label-row">
+            <label for="contrasena">Contraseña</label>
+            <a href="#" class="forgot-link">He olvidado mi contraseña</a>
+          </div>
+          <input type="password" id="contrasena" name="contrasena" placeholder="Introduce tu contraseña" />
+        </div>
 
-        CONTRASEÑA:
-        <br /><br />
-        <input type="password" name="contrasena" placeholder="Introduce tu contraseña" />
-        <br /><br />
+        <div class="remember-row">
+          <input type="checkbox" id="recuerdame" name="recuerdame" />
+          <label for="recuerdame">Recuérdame</label>
+        </div>
 
-        <button type="submit" class="iniciar-sesion">Iniciar Sesión</button>
+        <button type="submit">Iniciar Sesión</button>
       </form>
-      <br /><br />
+
+      <p class="switch-link">¿Aún no tienes cuenta? <a href="registr.php">Regístrate</a></p>
     </div>
   </body>
 </html>
