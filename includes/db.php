@@ -50,6 +50,7 @@
        
         if(true_or_false($tabla)){
             $_SESSION['nombre'] = $nombre;
+
             header("Location: session.php");
             exit();
        
@@ -81,8 +82,11 @@
         $usuario = $_contrasena->fetch_assoc();
         $comando->close();
 
-        if (password_verify($contrasena, $_contrasena = $usuario['contrasena'])){
-            $_SESSION['nombre'] = $usuario['nombre'];
+        if (password_verify($contrasena, $usuario['contrasena'])){
+            $_SESSION['nombre']     = $usuario['nombre'];
+            $_SESSION['id_usuario'] = $usuario['id_usuario'];
+            $_SESSION['id_puesto']  = $usuario['id_puesto'];
+
             header('Location: session.php');
             exit();
         };

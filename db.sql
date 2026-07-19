@@ -90,7 +90,7 @@ DELIMITER //
 DELIMITER //
 CREATE PROCEDURE VERIFICAR_CONTRASENA(_email VARCHAR(100))
 BEGIN
-    SELECT contrasena, nombre
+    SELECT contrasena, nombre, id_usuario, id_puesto
     FROM usuarios
     WHERE email = _email AND eliminado = 0;
 END
