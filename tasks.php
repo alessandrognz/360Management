@@ -12,11 +12,8 @@
     <?php require 'includes/nav.php'; ?>
     <main>
         <h1 class="page-title">Tareas</h1>
+        <button class="add">Añadir Tarea +</button>
     </main>
-    <footer class="footer-publico">
-        <span>© 2026 360Management</span>
-        <a href="#">Privacidad</a>
-        <a href="#">Contacto</a>
-    </footer>
+    <?php $layout_part = 'footer'; require 'includes/nav.php'; ?>
 </body>
 </html>

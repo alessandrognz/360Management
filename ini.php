@@ -29,7 +29,6 @@
           <label for="email">Correo electrónico</label>
           <input type="email" id="email" name="email" placeholder="Enter your email" />
         </div>
-
         <div class="field">
           <div class="label-row">
             <label for="contrasena">Contraseña</label>

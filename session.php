@@ -14,12 +14,11 @@
 <body>
     <?php require 'includes/nav.php'; ?>
     <main>
-        <h1 class="bienvenida">Bienvenido, <?php echo htmlspecialchars($_SESSION['nombre']); ?></h1>
+        <div class="inicio-hero">
+            <img src="Icons/logo+360Management.png" alt="360Management" class="inicio-logo">
+            <h1 class="bienvenida">Bienvenido, <?php echo htmlspecialchars($_SESSION['nombre']); ?></h1>
+        </div>
     </main>
-    <footer class="footer-publico">
-        <span>© 2026 360Management</span>
-        <a href="#">Privacidad</a>
-        <a href="#">Contacto</a>
-    </footer>
+    <?php $layout_part = 'footer'; require 'includes/nav.php'; ?>
 </body>
 </html>
