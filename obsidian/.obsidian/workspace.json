@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "ca77eb1118c7026f",
+        "id": "35f60e191ad42339",
         "type": "tabs",
         "children": [
           {
-            "id": "cf492ec686307a9c",
+            "id": "71d64fd83c654fa3",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -183,11 +183,13 @@
       "bases:Crear nueva base": false
     }
   },
-  "active": "cf492ec686307a9c",
+  "active": "71d64fd83c654fa3",
   "lastOpenFiles": [
+    "2026-07-20.md",
+    "Sin título.canvas",
+    "tareas/semana-2026-07-20/bloque-6-crud-usuarios-admin.md",
     "tareas/semana-2026-07-20/bloque-8-roles-permisos.md",
     "tareas/semana-2026-07-20/bloque-7-crud-tareas.md",
-    "tareas/semana-2026-07-20/bloque-6-crud-usuarios-admin.md",
     "tareas/semana-2026-07-20",
     "tareas/bloque-2-estructura-reutilizable.md",
     "tareas/bloque-4-validacion-mensajes.md",
@@ -208,7 +210,6 @@
     "paginas/inbox-php.md",
     "tareas/bloque-1-sesion-seguridad.md",
     "Inicio.md",
-    "Sin título.canvas",
     "paginas/settings-php.md",
     "paginas/session-php.md",
     "docs/deuda-tecnica.md",
