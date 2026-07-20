@@ -12,6 +12,17 @@
     <?php require 'includes/nav.php'; ?>
     <main>
         <h1 class="page-title">Ajustes</h1>
+
+        <h4>Cambiar nombre de usuario: </h4>
+
+        <form action="includes/db.php">
+            <input type="text">
+        </form>
+
+        <div class="buttons">
+            <br><br>
+            <a href="includes/delete_user.php" class="btn btn-danger">Eliminar usuario</a>
+        </div>
     </main>
     <?php $layout_part = 'footer'; require 'includes/nav.php'; ?>
 </body>

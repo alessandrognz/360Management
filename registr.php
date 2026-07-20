@@ -14,8 +14,11 @@
 			//Consulta
       if($contrasena === $contrasena2){
         $contrasena = password_hash($_POST['contrasena']??'', PASSWORD_BCRYPT);
+        $con = new loginAndRegister();
+        
+			  $con->INSERTAR_USUARIO($nombre,$email,$puesto,$contrasena);
 
-			  INSERTAR_USUARIO($nombre,$email,$puesto,$contrasena);
+        
       }
       else{
         $mensaje = 'Las contraseñas introducidas deben coincidir.';

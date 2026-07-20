@@ -5,8 +5,9 @@
 
     $email = $_REQUEST['email'];
     $contrasena = $_POST['contrasena'] ?? '';
-
-    INICIAR_SESION($email, $contrasena);
+    
+    $con = new loginAndRegister();
+    $con->INICIAR_SESION($email, $contrasena);
 
   }
 ?>

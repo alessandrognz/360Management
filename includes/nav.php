@@ -9,6 +9,10 @@ if ($layout_part === 'nav') :
         <img src="Icons/logo.png" alt="">
         <span>360Management</span>
     </div>
+    <div class="sidebar-profile">
+        <img src="Icons/profile.png" alt="" class="profile">
+        <span><?php echo $_SESSION['nombre']; ?></span>
+    </div>
     <p class="sidebar-section-label">Menu</p>
     <nav class="sidebar-nav">
         <a href="session.php" class="sidebar-item<?= $current_page === 'session.php' ? ' sidebar-item--active' : '' ?>">
@@ -17,6 +21,12 @@ if ($layout_part === 'nav') :
                 <polyline points="9 22 9 12 15 12 15 22"/>
             </svg>
             <span>Inicio</span>
+        </a>
+        <a href="admin.php" class="sidebar-item<?= $current_page === 'admin.php' ? ' sidebar-item--active' : '' ?>">
+            <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            <span>Admin</span>
         </a>
         <a href="tasks.php" class="sidebar-item<?= $current_page === 'tasks.php' ? ' sidebar-item--active' : '' ?>">
             <img src="Icons/Edit.svg" class="sidebar-icon" alt="" aria-hidden="true">
