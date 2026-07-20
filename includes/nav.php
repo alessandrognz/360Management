@@ -9,6 +9,10 @@ if ($layout_part === 'nav') :
         <img src="Icons/logo.png" alt="">
         <span>360Management</span>
     </div>
+    <div class="sidebar-profile">
+        <img src="Icons/profile.png" alt="" class="profile">
+        <span><?php echo $_SESSION['nombre']; ?></span>
+    </div>
     <p class="sidebar-section-label">Menu</p>
     <nav class="sidebar-nav">
         <a href="session.php" class="sidebar-item<?= $current_page === 'session.php' ? ' sidebar-item--active' : '' ?>">
