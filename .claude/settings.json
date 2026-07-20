@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(php -l /d/360Management/includes/db.php)",
-      "Bash(php -r ' *)"
+      "Bash(where ngrok *)",
+      "Bash(ngrok version *)",
+      "Bash(ngrok config *)"
     ]
   }
 }
