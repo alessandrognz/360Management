@@ -70,12 +70,10 @@ create table tareas_departamento(-- pks y fks
     id_est_tarea int default(1),
 
 	-- datos
-    fecha_asignacion datetime not null default current_timestamp,
     fecha_completada datetime null,
 	
     -- estados
     eliminado BIT DEFAULT(0),
-    completado bit default(0),
 
     constraint fk_tud_tarea foreign key(id_tarea) references tareas(id_tarea),
     constraint fk_tu_departamento foreign key(id_departamento) references departamento(id_departamento),
@@ -90,12 +88,10 @@ create table tareas_usuarios(
     id_est_tarea int default(1),
 
 	-- datos
-    fecha_asignacion datetime not null default current_timestamp,
     fecha_completada datetime null,
 	
     -- estados
     eliminado BIT DEFAULT(0),
-    completado bit default(0),
 
     constraint fk_tu_tarea foreign key(id_tarea) references tareas(id_tarea),
     constraint fk_tu_usuario foreign key(id_usuario) references usuarios(id_usuario),
@@ -170,8 +166,8 @@ BEGIN
 END
 //
 DELIMITER ;
+
 DELIMITER //
-use users;
 create procedure ELIMINAR_USUARIO(_nombre VARCHAR(50))
 begin
     update usuarios 
@@ -183,7 +179,6 @@ DELIMITER ;
 
 
 DELIMITER //
-use users;
 create procedure CAMBIAR_NOMBRE_USUARIO(_id_usuario int ,_nombre varchar(50))
 begin
 	update usuarios 
@@ -192,6 +187,31 @@ begin
 end
 //
 DELIMITER ;
+
+DELIMITER //
+create procedure SELECT_TAREAS_GENERALES(_id_departamento int)
+begin
+	select nombre_departamento,titulo,descripcion_tarea,fecha_limite,fecha_creacion,descripcion_est_tarea from tareas_departamento as td
+    inner join tareas as tr on tr.id_tarea = td.id_tarea
+    inner join departamento as dp on dp.id_departamento = td.id_departamento
+    inner join estado_tarea as et on et.id_est_tarea = td.id_est_tarea
+    where id_departamento = _id_departamento and month(fecha_limite) <= month(current_date());
+end
+//
+DELIMITER ;
+
+DELIMITER //
+create procedure SELECT_TAREAS_PERSONALES(_id_usuario int)
+begin
+	select titulo,descripcion_tarea,fecha_limite,fecha_creacion,descripcion_est_tarea from tareas_usuarios as td
+    inner join tareas as tr on tr.id_tarea = td.id_tarea
+    inner join usuarios as us on us.id_usuario = td.id_usuario
+    inner join estado_tarea as et on et.id_est_tarea = td.id_est_tarea
+    where id_usuario = _id_usuario and month(fecha_limite) <= month(current_date());
+end
+//
+DELIMITER ;
+
 -- Otros
 
 
