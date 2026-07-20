@@ -89,8 +89,6 @@ end
 DELIMITER ; 
 
 DELIMITER //
-
-DELIMITER //
 CREATE PROCEDURE VERIFICAR_CONTRASENA(_email VARCHAR(100))
 BEGIN
     SELECT contrasena, nombre, id_usuario, id_puesto
@@ -137,3 +135,26 @@ create table tareas_usuarios(
 );
 
 create index idx_tu_usuario on tareas_usuarios(id_usuario);
+
+DELIMITER //
+use users;
+create procedure ELIMINAR_USUARIO(_nombre VARCHAR(50))
+begin
+    update usuarios 
+    set eliminado = 1 
+    where nombre = _nombre and eliminado = 0; 
+end
+//
+DELIMITER ;
+
+
+DELIMITER //
+use users;
+create procedure CAMBIAR_NOMBRE_USUARIO(_id_usuario int ,_nombre varchar(50))
+begin
+	update usuarios 
+    set nombre = _nombre
+    where id_usuario = _id_usuario and eliminado = 0;
+end
+//
+DELIMITER ;
