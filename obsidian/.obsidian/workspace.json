@@ -11,14 +11,10 @@
             "id": "cf492ec686307a9c",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "tareas/semana-2026-07-20/bloque-7-crud-tareas.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "bloque-7-crud-tareas"
+              "title": "Nueva pestaña"
             }
           }
         ]
@@ -185,23 +181,23 @@
   },
   "active": "cf492ec686307a9c",
   "lastOpenFiles": [
+    "tareas/semana-2026-07-20/bloque-8-roles-permisos.md",
+    "tareas/semana-2026-07-20/bloque-7-crud-tareas.md",
     "tareas/semana-2026-07-20/bloque-6-crud-usuarios-admin.md",
+    "tareas/semana-2026-07-20",
+    "tareas/bloque-2-estructura-reutilizable.md",
     "tareas/bloque-4-validacion-mensajes.md",
     "tareas/bloque-3-panel-session.md",
     "semanas/semana-2026-07-19.md",
-    "tareas/bloque-2-estructura-reutilizable.md",
     "tareas/bloque-5-funcionalidades-futuras.md.tmp.16468.6a2a82bd1f7f",
     "tareas/bloque-5-funcionalidades-futuras.md.tmp.16468.7fa4a930177a",
     "tareas/bloque-5-funcionalidades-futuras.md.tmp.16468.302ae6697a1d",
     "Inicio.md.tmp.16468.e265b8b6c733",
     "Inicio.md.tmp.16468.b177be7a6356",
     "Inicio.md.tmp.16468.f3c20e3a8c43",
-    "tareas/semana-2026-07-20/bloque-7-crud-tareas.md",
     "tareas/semana-2026-07-20/bloque-7-crud-tareas.md.tmp.16468.1b956927ea15",
     "tareas/semana-2026-07-20/bloque-6-crud-usuarios-admin.md.tmp.16468.00d152573e5c",
-    "tareas/semana-2026-07-20/bloque-8-roles-permisos.md",
     "tareas/semana-2026-07-20/bloque-8-roles-permisos.md.tmp.16468.4d1fe08a52f3",
-    "tareas/semana-2026-07-20",
     "tareas/bloque-5-funcionalidades-futuras.md",
     "docs/base-de-datos.md",
     "docs/arquitectura.md",
