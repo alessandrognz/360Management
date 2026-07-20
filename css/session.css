@@ -299,3 +299,122 @@ main {
   outline: 2px solid #b91c1c;
   outline-offset: 2px;
 }
+
+/* ——— Panel de control — listado de usuarios ——— */
+
+.user-list {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border: 1px solid #e2e8df;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.user-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 20px;
+  border-bottom: 1px solid #e2e8df;
+  transition: background-color 0.15s ease;
+}
+
+.user-row:last-child {
+  border-bottom: none;
+}
+
+.user-row:hover {
+  background-color: #eef0ed;
+}
+
+.user-checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: #4a6741;
+  flex-shrink: 0;
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 170px;
+  flex-shrink: 0;
+}
+
+.user-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.user-badge {
+  align-self: flex-start;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #4a6741;
+  background-color: #eef2ec;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.user-email {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.85rem;
+  color: #6b7280;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-id {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  flex-shrink: 0;
+}
+
+.user-date {
+  font-size: 0.8rem;
+  color: #6b7280;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.user-delete-form {
+  flex-shrink: 0;
+}
+
+.btn-icon-danger {
+  padding: 6px 14px;
+  background-color: #ffffff;
+  color: #b91c1c;
+  border: 1px solid #f3d0d0;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.btn-icon-danger:hover:not(:disabled) {
+  background-color: #b91c1c;
+  color: #ffffff;
+  border-color: #b91c1c;
+}
+
+.btn-icon-danger:disabled {
+  color: #d1d5db;
+  border-color: #e2e8df;
+  cursor: not-allowed;
+}
