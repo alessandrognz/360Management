@@ -78,6 +78,11 @@
         }
     }
 
+    class TBL_TAREA{
+        function select_tarea(){
+            $a="1";
+        }
+    }
     
     
 ?>
