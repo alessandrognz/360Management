@@ -21,7 +21,7 @@
 
         <div class="buttons">
             <br><br>
-            <a href="db.php" class="btn btn-danger">Eliminar usuario</a>
+            <a href="includes/delete_user.php" class="btn btn-danger">Eliminar usuario</a>
         </div>
     </main>
     <?php $layout_part = 'footer'; require 'includes/nav.php'; ?>

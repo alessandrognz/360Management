@@ -77,7 +77,19 @@
             return false;
         }
     }
+        function ELIMINAR_USUARIO($nombre = ''){
+            global $Coneccion;
 
-    
+            if ($nombre === '') {$nombre = $_SESSION['nombre'] ?? '';}
+
+            $comando = $Coneccion->prepare("CALL ELIMINAR_USUARIO(?);");
+            $comando->bind_param("s", $nombre);
+            $comando->execute();
+            $comando->close();
+
+            session_destroy();
+            header("Location: index.html");
+            exit();
+        }
     
 ?>
