@@ -1,5 +1,7 @@
 <?php
-    session_start();
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
 
     $DB_config = require __DIR__ . '/db_config.php';
 
@@ -73,5 +75,40 @@
             exit();
         };
         return false;
+    }
+    function MOSTRAR_USUARIO($id_usuario = 0) {
+        global $Coneccion;
+
+        $comando = $Coneccion->prepare("CALL MOSTRAR_USUARIO(?);");
+        $comando->bind_param("i", $id_usuario);
+        $comando->execute();
+
+        $result  = $comando->get_result();
+        $usuario = $result->fetch_assoc();
+        $result->free();
+        $comando->close();
+
+        return $usuario;
+    }
+    function MOSTRAR_USUARIOS() {
+        global $Coneccion;
+
+        $comando = $Coneccion->prepare("CALL MOSTRAR_USUARIOS();");
+        $comando->execute();
+
+        $result   = $comando->get_result();
+        $usuarios = $result->fetch_all(MYSQLI_ASSOC);
+        $result->free();
+        $comando->close();
+
+        return $usuarios;
+    }
+    function ELIMINAR_USUARIO_LOGICO($id_usuario = 0) {
+        global $Coneccion;
+
+        $comando = $Coneccion->prepare("CALL ELIMINAR_USUARIO_LOGICO(?);");
+        $comando->bind_param("i", $id_usuario);
+        $comando->execute();
+        $comando->close();
     }
 ?>

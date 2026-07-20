@@ -137,7 +137,6 @@ create table tareas_usuarios(
 create index idx_tu_usuario on tareas_usuarios(id_usuario);
 
 DELIMITER //
-use users;
 create procedure ELIMINAR_USUARIO(_nombre VARCHAR(50))
 begin
     update usuarios 
@@ -149,11 +148,43 @@ DELIMITER ;
 
 
 DELIMITER //
-use users;
 create procedure CAMBIAR_NOMBRE_USUARIO(_id_usuario int ,_nombre varchar(50))
 begin
 	update usuarios 
     set nombre = _nombre
+    where id_usuario = _id_usuario and eliminado = 0;
+end
+//
+DELIMITER ;
+
+DELIMITER //
+use users;
+create procedure MOSTRAR_USUARIOS()
+begin
+    select u.id_usuario, u.id_puesto, u.nombre, u.email, u.fecha_registro, p.nombre_puesto
+    from usuarios u
+    join puesto p on u.id_puesto = p.id_puesto
+    where u.eliminado = 0;
+end
+//
+DELIMITER ;
+
+DELIMITER //
+create procedure MOSTRAR_USUARIO(_id_usuario int)
+begin
+    select u.id_usuario, u.nombre, u.email, u.fecha_registro, p.nombre_puesto
+    from usuarios u
+    join puesto p on u.id_puesto = p.id_puesto
+    where u.id_usuario = _id_usuario and u.eliminado = 0;
+end
+//
+DELIMITER ;
+
+DELIMITER //
+create procedure ELIMINAR_USUARIO_LOGICO(_id_usuario int)
+begin
+    update usuarios
+    set eliminado = 1
     where id_usuario = _id_usuario and eliminado = 0;
 end
 //
