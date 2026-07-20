@@ -18,6 +18,14 @@ Documentación del proyecto en Obsidian. El código PHP vive en XAMPP (Apache).
 | [[bloque-4-validacion-mensajes\|Bloque 4 — Validación y Mensajes]]       | 🟡 Media  | ⬜ Pendiente        |
 | [[bloque-5-funcionalidades-futuras\|Bloque 5 — Tasks, Inbox, Settings]]  | 🟢 Baja   | ⬜ Pendiente        |
 
+#### Semana 20–26 jul — CRUD y Roles
+
+| Bloque                                                                        | Prioridad | Estado      |
+| ----------------------------------------------------------------------------- | --------- | ----------- |
+| [[bloque-8-roles-permisos\|Bloque 8 — Roles y Control de Acceso]]             | 🔴 Alta   | ⬜ Pendiente |
+| [[bloque-6-crud-usuarios-admin\|Bloque 6 — CRUD Gestión de Usuarios (Admin)]] | 🟡 Media  | ⬜ Pendiente |
+| [[bloque-7-crud-tareas\|Bloque 7 — CRUD de Tareas]]                           | 🟡 Media  | ⬜ Pendiente |
+
 ### Páginas PHP
 
 | Página | Tipo | Estado |
@@ -37,6 +45,12 @@ Documentación del proyecto en Obsidian. El código PHP vive en XAMPP (Apache).
 - [[base-de-datos]] — Tablas, procedimientos almacenados
 - [[deuda-tecnica]] — Riesgos y deuda técnica conocida
 
+### Páginas PHP por crear
+
+| Página | Bloque |
+|--------|--------|
+| `admin.php` | [[bloque-6-crud-usuarios-admin]] |
+
 ### Diario semanal
 
 - [[semana-2026-07-19]] — Semana 14–19 jul: auth completa + rediseño UI
@@ -48,3 +62,6 @@ Documentación del proyecto en Obsidian. El código PHP vive en XAMPP (Apache).
 
 > [!warning] Siguiente paso inmediato
 > **Bloque 2 tarea 2.2** — marcar link activo del nav dinámicamente. Luego continuar con **Bloque 3 tarea 3.2** (tarjetas de resumen) y **Bloque 4** (mensajes visuales).
+
+> [!info] Semana 20–26 jul — objetivos
+> **Bloque 8** (roles) → **Bloque 6** (admin usuarios) → **Bloque 7** (CRUD tareas). Ese orden respeta las dependencias entre bloques.

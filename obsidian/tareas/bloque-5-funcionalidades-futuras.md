@@ -11,10 +11,11 @@ bloque: 5
 ## Secciones pendientes
 
 - [ ] **5.1 — Tasks (gestión de tareas)**
-  Sección para crear, asignar, listar y cambiar el estado de tareas. Sin diseño detallado aún.
+  Sección para crear, asignar, listar y cambiar el estado de tareas.
   - Archivo nuevo: `tasks.php`
   - Requiere: nuevas tablas en BD, nuevos procedimientos almacenados, nuevo CSS o extensión de `session.css`
   - Ver: [[tasks-php]]
+  - **Detalle completo en**: [[bloque-7-crud-tareas]] ← implementación semana 20 jul
 
 - [ ] **5.2 — Inbox (mensajería interna)**
   Sistema de mensajes entre usuarios de la empresa.
@@ -32,10 +33,11 @@ bloque: 5
   - Requiere: procedimiento `ACTUALIZAR_USUARIO` y/o `CAMBIAR_CONTRASENA`
   - Ver: [[settings-php]]
 
-- [ ] **5.4 — Sistema de permisos por puesto/departamento**
-  La relación `puesto → departamento` ya existe en BD. Falta definir qué acciones o vistas están restringidas por departamento/puesto y aplicar las comprobaciones en PHP.
-  - Posible tabla nueva: `permisos` o columna de nivel de acceso en `puesto`
-  - Afecta a: `includes/auth_check.php` (ampliar para comprobar rol) y todas las páginas privadas
+- [ ] **5.4 — Sistema de permisos por rol**
+  Columna `rol ENUM('admin','usuario')` en `usuarios`. Helper `includes/auth_rol.php` con `es_admin()` y `requiere_admin()`.
+  - Sin tabla `permisos` separada (dos roles es suficiente para el alcance actual)
+  - Afecta a: `includes/auth_rol.php` (nuevo), `includes/nav.php`, `includes/db.php`, `db.sql`
+  - **Detalle completo en**: [[bloque-8-roles-permisos]] ← prerequisito de bloques 6 y 7
 
 ## Notas
 
@@ -51,3 +53,6 @@ bloque: 5
 - [[bloque-4-validacion-mensajes]] — prerequisito
 - [[tasks-php]] — [[inbox-php]] — [[settings-php]] — páginas a crear
 - [[bloque-1-sesion-seguridad]] — el sistema de permisos se apoya en los datos de sesión
+- [[bloque-6-crud-usuarios-admin]] — expande 5.1 con panel admin de usuarios (semana 20 jul)
+- [[bloque-7-crud-tareas]] — expande 5.1 con CRUD completo de tareas (semana 20 jul)
+- [[bloque-8-roles-permisos]] — expande 5.4 con implementación concreta de roles (semana 20 jul)
