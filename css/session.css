@@ -56,6 +56,20 @@ body {
   color: #111827;
 }
 
+.sidebar-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 8px;
+  margin-bottom: 20px;
+}
+
+.sidebar-profile span {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+}
+
 .sidebar-section-label {
   font-size: 0.7rem;
   font-weight: 600;
@@ -99,6 +113,15 @@ body {
   height: 18px;
   flex-shrink: 0;
   transition: filter 0.15s ease;
+}
+
+.profile {
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
+  border-radius: 50%;
+  vertical-align: middle;
+  flex-shrink: 0;
 }
 
 .sidebar-item--active {
