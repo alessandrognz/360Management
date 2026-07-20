@@ -11,10 +11,14 @@
             "id": "cf492ec686307a9c",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "tareas/semana-2026-07-20/bloque-6-crud-usuarios-admin.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "Nueva pestaña"
+              "title": "bloque-6-crud-usuarios-admin"
             }
           }
         ]
