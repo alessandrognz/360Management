@@ -130,25 +130,6 @@ select option[value="disabled"] {
   gap: 8px;
 }
 
-.remember-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.remember-row input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
-  accent-color: #4a6741;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-.remember-row label {
-  font-size: 0.875rem;
-  color: #374151;
-  cursor: pointer;
-}
 
 button[type="submit"] {
   width: 100%;

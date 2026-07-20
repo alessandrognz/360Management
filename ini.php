@@ -37,11 +37,6 @@
           <input type="password" id="contrasena" name="contrasena" placeholder="Introduce tu contraseña" />
         </div>
 
-        <div class="remember-row">
-          <input type="checkbox" id="recuerdame" name="recuerdame" />
-          <label for="recuerdame">Recuérdame</label>
-        </div>
-
         <button type="submit">Iniciar Sesión</button>
       </form>
 

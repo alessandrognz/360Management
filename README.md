@@ -5,7 +5,7 @@ Aplicación web de gestión de usuarios/empresa construida con PHP procedural y 
 ## Stack
 
 | Capa | Tecnología |
-|------|------------|
+|--------------------------------------------------------|
 | Frontend | HTML + CSS puro (sistema de diseño moderno) |
 | Backend | PHP procedural — extensión `mysqli` |
 | Base de datos | MySQL con procedimientos almacenados |
