@@ -94,7 +94,7 @@
             exit();
         };
         return false;
-    }
+    
     function MOSTRAR_USUARIO($id_usuario = 0) {
         global $Coneccion;
 
