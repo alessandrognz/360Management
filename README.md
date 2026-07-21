@@ -1,87 +1,128 @@
 # 360Management
 
-Aplicación web de gestión de usuarios/empresa construida con PHP procedural y MySQL. Proyecto de aprendizaje/portfolio orientado a seguridad, buenas prácticas y arquitectura escalable.
+Panel web de gestión de empresa — autenticación, administración de usuarios y gestión de tareas. PHP procedural + MySQL puro, sin frameworks.
+
+> Proyecto de portfolio orientado a seguridad, buenas prácticas y arquitectura limpia.
+
+---
 
 ## Stack
 
-| Capa | Tecnología |
-|--------------------------------------------------------|
-| Frontend | HTML + CSS puro (sistema de diseño moderno) |
-| Backend | PHP procedural — extensión `mysqli` |
-| Base de datos | MySQL con procedimientos almacenados |
-| Entorno local | XAMPP en Windows (Apache + MySQL) |
+**Backend** PHP procedural · `mysqli` · procedimientos almacenados  
+**Frontend** HTML · CSS vanilla · JS vanilla  
+**Base de datos** MySQL (UTF8MB4)  
+**Entorno** XAMPP — Apache + MySQL en Windows
 
-## Estructura del proyecto
+---
+
+## Funcionalidades
+
+| Módulo | Estado |
+|--------|--------|
+| Registro e inicio de sesión (modales) | ✅ |
+| Panel privado con bienvenida al usuario | ✅ |
+| Perfil de usuario en sidebar | ✅ |
+| Ajustes — cambiar nombre y eliminar cuenta | ✅ |
+| Panel de administración — listar y eliminar usuarios | ✅ |
+| Gestión de tareas (`tasks.php`) | 🔄 En desarrollo |
+| Bandeja de entrada (`inbox.php`) | 🔄 En desarrollo |
+| Sistema de roles admin / usuario | ⏳ Pendiente |
+
+---
+
+## Puesta en marcha
+
+**Requisitos:** [XAMPP](https://www.apachefriends.org/) con Apache y MySQL activos.
+
+**1. Clona el repositorio en `htdocs`**
+
+```bash
+git clone <repo-url> C:/xampp/htdocs/360Management
+```
+
+**2. Importa la base de datos**
+
+Abre **phpMyAdmin** → pestaña *Importar* → selecciona `db.sql`.
+
+**3. Crea el archivo de credenciales**
+
+```php
+// includes/db_config.php  (no se sube al repo)
+<?php
+return [
+    'ip'         => '127.0.0.1',
+    'puerto'     => 3306,
+    'usuario'    => 'root',
+    'contrasenia'=> '',
+    'db_nombre'  => 'users',
+];
+```
+
+**4. Accede en el navegador**
+
+```
+http://localhost/360Management/
+```
+
+---
+
+## Estructura
 
 ```
 360Management/
-├─ index.html              Bienvenida pública (logo + botones)
-├─ ini.php                 Login — formulario + procesamiento POST
-├─ registr.php             Registro — formulario + procesamiento POST
-├─ session.php             Panel privado (home interno)
-├─ tasks.php               Gestión de tareas (esqueleto)
-├─ inbox.php               Bandeja de entrada (esqueleto)
-├─ settings.php            Ajustes de usuario (esqueleto)
+├─ index.php               Landing (login + registro en modales)
+├─ session.php             Panel privado
+├─ admin.php               Administración de usuarios
+├─ settings.php            Ajustes de cuenta
+├─ tasks.php               Gestión de tareas  (WIP)
+├─ inbox.php               Bandeja de entrada (WIP)
 ├─ includes/
 │   ├─ db.php              Conexión + wrappers de procedimientos almacenados
-│   ├─ auth_check.php      Comprobación de sesión activa (protege páginas privadas)
-│   ├─ logout.php          Destrucción de sesión y redirección a login
-│   └─ nav.php             Sidebar + footer compartido
-├─ assets/
-│   ├─ css/
-│   │   ├─ index.css       Estilos públicos (login, registro, landing)
-│   │   └─ session.css     Estilos del área autenticada
-│   ├─ icons/              Biblioteca de iconos SVG/PNG (160+ variantes)
-│   └─ img/                Imágenes de la landing
-└─ db.sql                  Schema completo de la base de datos con datos iniciales
+│   ├─ db_config.php       Credenciales locales  ← en .gitignore
+│   ├─ auth_check.php      Guard de sesión (redirige a login si no autenticado)
+│   ├─ delete_user.php     Eliminar cuenta propia
+│   ├─ logout.php          Cierre de sesión
+│   └─ nav.php             Sidebar compartido
+└─ assets/
+    ├─ css/                index.css · session.css
+    ├─ js/                 index.js (apertura de modales)
+    └─ icons/ images/
 ```
 
-## Base de datos
-
-Base de datos `users` (UTF8MB4), 5 tablas con borrado lógico (`eliminado BIT DEFAULT(0)`):
-
-| Tabla | Descripción |
-|-------|-------------|
-| `departamento` | 7 departamentos de la empresa |
-| `puesto` | 20 puestos con descripción (FK a `departamento`) |
-| `usuarios` | id, puesto, nombre, email único, contraseña, fecha_registro, eliminado |
-| `tareas` | Tareas con título (25 c.), descripción (250 c.), fechas y asignación |
-| `tareas_usuarios` | Relación N:M tareas ↔ usuarios con fecha de asignación y completado |
-
-### Procedimientos almacenados
+<details>
+<summary>Procedimientos almacenados</summary>
 
 | Procedimiento | Descripción |
 |---------------|-------------|
-| `INSERTAR_USUARIO(id_puesto, nombre, email, contrasena)` | Alta de usuario — devuelve `id_usuario` + `id_departamento` |
+| `INSERTAR_USUARIO(id_puesto, nombre, email, contrasena)` | Alta — devuelve `id_usuario` e `id_departamento` |
 | `VERIFICAR_EMAIL(email)` | Comprueba si el email ya existe |
-| `VERIFICAR_CONTRASENA(email)` | Devuelve el hash + datos del usuario para el login |
+| `VERIFICAR_CONTRASENA(email)` | Devuelve hash + datos para el login |
+| `MOSTRAR_USUARIO(id_usuario)` | Datos de un usuario por id |
+| `MOSTRAR_USUARIOS()` | Todos los usuarios no eliminados |
+| `ELIMINAR_USUARIO_LOGICO(id_usuario)` | Borrado lógico (`eliminado = 1`) |
+| `CAMBIAR_NOMBRE_USUARIO(id_usuario, nombre)` | Actualiza el nombre |
 
-## Estado actual
+</details>
 
-- ✅ Registro funcional con `password_hash()` (BCRYPT)
-- ✅ Login funcional con `password_verify()`
-- ✅ Base de datos con datos iniciales (departamentos y puestos)
-- ✅ Protección de sesión en todas las páginas privadas (`auth_check.php`)
-- ✅ Logout con destrucción completa de sesión
-- ✅ Sidebar y footer extraídos a `includes/nav.php`
-- ✅ Sistema de diseño CSS consistente (paleta, tipografía, layout)
-- ⚠️ `tasks.php`, `inbox.php` y `settings.php` en fase de esqueleto
-- ⚠️ Credenciales de BD hardcodeadas en `db.php` (sin `.env`)
-- ⚠️ Sin mensajes de validación en pantalla (solo `alert()`)
+---
 
 ## Hoja de ruta
 
-1. **Bloque 1** — ~~Sesión y seguridad~~ ✅ Completado
-2. **Bloque 2** — ~~Estructura reutilizable (nav/footer como includes)~~ ✅ Completado
-3. **Bloque 3** — Contenido del panel (dashboard con datos reales)
-4. **Bloque 4** — Validación y mensajes de usuario en pantalla
-5. **Bloque 5** — Tasks, Inbox, Settings (implementación completa)
+- [x] Bloque 1 — Autenticación y sesión segura
+- [x] Bloque 2 — Estructura reutilizable (nav/footer como includes)
+- [x] Bloque 6 — Panel de administración de usuarios
+- [ ] Bloque 3 — Dashboard con datos reales
+- [ ] Bloque 4 — Validación y mensajes de error en pantalla
+- [ ] Bloque 5 — Tasks e Inbox completos
+- [ ] Bloque 7 — CRUD de tareas
+- [ ] Bloque 8 — Sistema de roles
 
-## Convenciones del proyecto
+---
 
-- PHP procedural en **español** (`$Coneccion`, `INSERTAR_USUARIO`)
-- SQL solo vía procedimientos almacenados + `mysqli->prepare()` + `bind_param()`
-- Formulario y procesamiento en el **mismo archivo** (patrón `POST` al principio del archivo)
-- Todas las páginas privadas incluyen `auth_check.php` como primera línea
-- Sidebar y footer se incluyen via `nav.php` (no duplicar HTML)
-- Ir en orden de bloques: no empezar Bloque 5 sin tener cerrados los anteriores
+## Convenciones
+
+- Nomenclatura en **español** — `$Coneccion`, `INSERTAR_USUARIO`, `id_puesto`
+- Todo SQL a través de procedimientos almacenados + `prepare()` + `bind_param()`
+- Formulario y procesamiento POST en el mismo archivo
+- Páginas privadas incluyen `auth_check.php` como primera línea
+- Credenciales de BD nunca en el repo — usar `includes/db_config.php`
