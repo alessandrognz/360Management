@@ -2,18 +2,20 @@
     require 'includes/auth_check.php';
     require 'includes/db.php';
 
+    $crud_user = new CRUD_USER();
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['accion'] ?? '') === 'eliminar') {
         $id_usuario_eliminar = (int) ($_POST['id_usuario'] ?? 0);
 
         if ($id_usuario_eliminar !== (int) $_SESSION['id_usuario']) {
-            ELIMINAR_USUARIO_LOGICO($id_usuario_eliminar);
+            $crud_user->ELIMINAR_USUARIO_LOGICO($id_usuario_eliminar);
         }
 
         header('Location: admin.php');
         exit();
     }
 
-    $usuarios = MOSTRAR_USUARIOS();
+    $usuarios = $crud_user->MOSTRAR_USUARIOS();
 ?>
 <!DOCTYPE html>
 <html lang="es">

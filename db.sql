@@ -4,8 +4,6 @@ collate utf8mb4_unicode_520_ci;
 
 USE users;
 
-
-
 -- Tablas
 
 create table departamento(
@@ -228,3 +226,14 @@ DELIMITER ;
 -- Otros
 
 create index idx_tu_usuario on tareas_usuarios(id_usuario);
+
+DELIMITER //
+
+create procedure CAMBIAR_CONTRASENA(_id_usuario int, _contrasena varchar(250))
+begin
+	update usuarios 
+    set contrasena = _contrasena
+    where id_usuario = _id_usuario AND eliminado = 0;
+end
+//
+DELIMITER ;
