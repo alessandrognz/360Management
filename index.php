@@ -1,4 +1,16 @@
 <?php
+  require_once 'includes/db.php';
+
+  if($_SERVER['REQUEST_METHOD']=== 'POST') {
+
+    $email = $_REQUEST['email'];
+    $contrasena = $_POST['contrasena'] ?? '';
+
+    INICIAR_SESION($email, $contrasena);
+
+  }
+?>
+<?php
     require_once 'includes/db.php';
 
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -32,14 +44,50 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="assets/icons/logo.png" />
-    <link rel="stylesheet" href="assets/css/index.css" />
-    <title>Registrarse</title>
+    <link rel="stylesheet" href="assets/css/index.css">
+    <title>360Management</title>
   </head>
   <body>
-    <div class="container">
-      <h1>Empieza ahora mismo</h1>
+    <div class="landing">
+      <div class="logo"><img src="assets/icons/logo+360Management.png" alt="360Management"></div>
+      <div class="buttons">
+        <button id="btn-login" class="btn btn-primary">Iniciar Sesión</button>
+        <button id="btn-registro" class="btn btn-secondary">Registrarse</button>
+      </div>
+    </div>
 
-      <form action="registr.php" method="POST">
+    <div class="modal-overlay" id="modal-login">
+      <div class="container">
+        <button class="modal-close" data-modal="modal-login">&times;</button>
+        <h1>Bienvenido a 360Management!</h1>
+        <p class="subtitle">Introduce tus credenciales para acceder</p>
+
+        <form action="index.php" method="POST">
+          <div class="field">
+            <label for="email">Correo electrónico</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" />
+          </div>
+          <div class="field">
+            <div class="label-row">
+              <label for="contrasena">Contraseña</label>
+              <a href="#" class="forgot-link">He olvidado mi contraseña</a>
+            </div>
+            <input type="password" id="contrasena" name="contrasena" placeholder="Introduce tu contraseña" />
+          </div>
+
+          <button type="submit">Iniciar Sesión</button>
+        </form>
+
+        <p class="switch-link">¿Aún no tienes cuenta? <a href="#" id="switch-registro">Regístrate</a></p>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-registro">
+      <div class="container2">
+        <button class="modal-close" data-modal="modal-registro">&times;</button>
+        <h1>Empieza ahora mismo</h1>
+
+      <form action="index.php" method="POST">
         <div class="field">
           <label for="nombre">Nombre</label>
           <input type="text" id="nombre" name="nombre" placeholder="Introduce tu nombre" />
@@ -48,7 +96,7 @@
         <div class="field">
           <label for="email">Correo electrónico</label>
           <input type="email" id="email" name="email" placeholder="Introduce tu correo electrónico" />
-        </div>
+    </div>
 
         <div class="field">
           <label for="puesto">Puesto</label>
@@ -80,15 +128,17 @@
         <div class="field">
           <label for="contrasena">Contraseña</label>
           <div class="password-group">
-            <input type="password" id="contrasena" name="contrasena" placeholder="···" required minlength="8" />
-            <input type="password" name="contrasena2" placeholder="···" />
+            <input type="password" id="contrasena" name="contrasena" placeholder="Mínimo 8 caracteres" required minlength="8" />
+            <input type="password" name="contrasena2" placeholder="Repite la contraseña" />
           </div>
         </div>
 
         <button type="submit">Registrarse</button>
       </form>
 
-      <p class="switch-link">¿Ya tienes cuenta? <a href="ini.php">Iniciar Sesión</a></p>
+        <p class="switch-link">¿Ya tienes cuenta? <a href="#" id="switch-login">Iniciar Sesión</a></p>
+      </div>
     </div>
+    <script src="assets/js/index.js"></script>
   </body>
 </html>
