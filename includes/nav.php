@@ -11,7 +11,7 @@ if ($layout_part === 'nav') :
     </div>
     <div class="sidebar-profile">
         <img src="assets/icons/profile.png" alt="" class="profile">
-        <span><?php echo $_SESSION['nombre']; ?></span>
+        <span><?php echo htmlspecialchars($_SESSION['nombre'] ?? ''); ?></span>
     </div>
     <p class="sidebar-section-label">Menu</p>
     <nav class="sidebar-nav">

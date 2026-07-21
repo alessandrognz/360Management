@@ -59,7 +59,7 @@
             $_email = $comando->get_result();
             $usuario = $_email->fetch_assoc();
             $comando->close();
-            $_email = $usuario['email'];
+            $_email = $usuario['email'] ?? null;
 
             $comando = $Coneccion->prepare('CALL VERIFICAR_CONTRASENA(?);');
             $comando->bind_param("s", $email);
@@ -69,7 +69,7 @@
             $usuario = $_contrasena->fetch_assoc();
             $comando->close();
 
-            if (password_verify($contrasena, $usuario['contrasena'])){
+            if ($usuario && password_verify($contrasena, $usuario['contrasena'])){
                 $_SESSION['nombre']     = $usuario['nombre'];
                 $_SESSION['id_usuario'] = $usuario['id_usuario'];
                 $_SESSION['id_puesto']  = $usuario['id_puesto'];
@@ -84,45 +84,6 @@
     }
     class CRUD_USER{
         function ELIMINAR_USUARIO($nombre = ''){
-    class TBL_TAREA{
-        function SELECT_TAREAS_GENERALES($id){
-            global $Coneccion;
-            $tabla = [];
-
-
-            //Comando
-            $comando = $Coneccion->prepare("CALL SELECT_TAREAS_GENERALES(?);");
-            $comando->bind_param("i", $id);
-    
-    
-            //Llenado de variables
-            $comando->execute();
-    
-            //Obtener resultado
-            $result = $comando->get_result();
-            $comando->close();
-
-
-
-
-            if ($result) {
-                while ($row = $result->fetch_assoc()) {
-                    $tabla[] = $row;
-                }
-
-
-                $result->free();
-            }
-        
-            return $tabla; // Print es para pruebas visibles, se cambiaria por un return
-
-
-        }
-        function SELECT_TAREAS_PERSONALES(){
-            $a="1";
-        }
-        
-    }
             global $Coneccion;
 
             if ($nombre === '') {$nombre = $_SESSION['nombre'] ?? '';}
@@ -133,10 +94,10 @@
             $comando->close();
 
             session_destroy();
-            header("Location: index.html");
+            header("Location: index.php");
             exit();
         }
-
+        
         function MOSTRAR_USUARIO($id_usuario = 0) {
             global $Coneccion;
 
@@ -222,4 +183,45 @@
             return false;
     }
 }
+
+    class TBL_TAREA{
+
+        function SELECT_TAREAS_GENERALES($id){
+            global $Coneccion;
+            $tabla = [];
+
+
+            //Comando
+            $comando = $Coneccion->prepare("CALL SELECT_TAREAS_GENERALES(?);");
+            $comando->bind_param("i", $id);
+
+
+            //Llenado de variables
+            $comando->execute();
+
+            //Obtener resultado
+            $result = $comando->get_result();
+            $comando->close();
+
+
+
+
+            if ($result) {
+                while ($row = $result->fetch_assoc()) {
+                    $tabla[] = $row;
+                }
+
+
+                $result->free();
+            }
+
+            return $tabla; // Print es para pruebas visibles, se cambiaria por un return
+
+
+        }
+        function SELECT_TAREAS_PERSONALES(){
+            $a="1";
+        }
+
+    }
 ?>

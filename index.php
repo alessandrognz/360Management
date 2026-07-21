@@ -3,7 +3,7 @@
 
   if($_SERVER['REQUEST_METHOD']=== 'POST') {
     $action = $_GET['action']??'';
-    echo '<script>console.log("Entrando en el post '.$action.'");</script>' ; 
+    echo '<script>console.log("Entrando en el post '.htmlspecialchars($action, ENT_QUOTES).'");</script>' ;
 
     if ($action == 'ini'){
       echo '<script>console.log("Entrando en ini");</script>'; 
@@ -21,7 +21,7 @@
       $email = $_POST['email']??'';
       $puesto = $_POST['puesto']??'';
 
-      $contrasena = $_POST['contrasena'??''];
+      $contrasena = $_POST['contrasena'] ?? '';
       $contrasena2 = $_POST['contrasena2']??'';      
 
 			//Consulta
