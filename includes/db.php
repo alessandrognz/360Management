@@ -97,7 +97,7 @@
             header("Location: index.php");
             exit();
         }
-        
+
         function MOSTRAR_USUARIO($id_usuario = 0) {
             global $Coneccion;
 
@@ -165,7 +165,7 @@
             if (password_verify($contrasena, $usuario['contrasena'])){
 
                 if (!function_exists('REMPLAZAR_CONTRASENA')) {
-                function REMPLAZAR_CONTRASENA($id_usuario,$new_contrasena){
+                function REMPLAZAR_CONTRASENA(int $id_usuario,$new_contrasena = ''){
 
                 global $Coneccion;
                 $comando = $Coneccion->prepare('CALL CAMBIAR_CONTRASENA(?,?);');
@@ -186,7 +186,7 @@
 
     class TBL_TAREA{
 
-        function SELECT_TAREAS_GENERALES($id){
+        function SELECT_TAREAS_GENERALES(int $id){
             global $Coneccion;
             $tabla = [];
 
