@@ -6,11 +6,11 @@ if ($layout_part === 'nav') :
 ?>
 <aside class="sidebar">
     <div class="sidebar-brand">
-        <img src="Icons/logo.png" alt="">
+        <img src="assets/icons/logo.png" alt="">
         <span>360Management</span>
     </div>
     <div class="sidebar-profile">
-        <img src="Icons/profile.png" alt="" class="profile">
+        <img src="assets/icons/profile.png" alt="" class="profile">
         <span><?php echo $_SESSION['nombre']; ?></span>
     </div>
     <p class="sidebar-section-label">Menu</p>
@@ -29,21 +29,21 @@ if ($layout_part === 'nav') :
             <span>Admin</span>
         </a>
         <a href="tasks.php" class="sidebar-item<?= $current_page === 'tasks.php' ? ' sidebar-item--active' : '' ?>">
-            <img src="Icons/Edit.svg" class="sidebar-icon" alt="" aria-hidden="true">
+            <img src="assets/icons/Edit.svg" class="sidebar-icon" alt="" aria-hidden="true">
             <span>Tasks</span>
         </a>
         <a href="inbox.php" class="sidebar-item<?= $current_page === 'inbox.php' ? ' sidebar-item--active' : '' ?>">
-            <img src="Icons/Info.svg" class="sidebar-icon" alt="" aria-hidden="true">
+            <img src="assets/icons/Info.svg" class="sidebar-icon" alt="" aria-hidden="true">
             <span>Inbox</span>
         </a>
         <a href="settings.php" class="sidebar-item<?= $current_page === 'settings.php' ? ' sidebar-item--active' : '' ?>">
-            <img src="Icons/Setting_line.svg" class="sidebar-icon" alt="" aria-hidden="true">
+            <img src="assets/icons/Setting_line.svg" class="sidebar-icon" alt="" aria-hidden="true">
             <span>Ajustes</span>
         </a>
     </nav>
     <div class="sidebar-footer-area">
         <a href="includes/logout.php" class="sidebar-item sidebar-item--logout">
-            <img src="Icons/On_button.svg" class="sidebar-icon" alt="" aria-hidden="true">
+            <img src="assets/icons/On_button.svg" class="sidebar-icon" alt="" aria-hidden="true">
             <span>Salir</span>
         </a>
     </div>

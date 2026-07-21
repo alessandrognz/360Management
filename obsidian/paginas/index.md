@@ -23,8 +23,8 @@ No tiene lógica PHP — es HTML estático puro.
 
 | Archivo | Rol |
 |---------|-----|
-| `css/index.css` | Estilos: fondo, componente `.aero-window`, botones |
-| `img/` | Logo y recursos visuales |
+| `assets/css/index.css` | Estilos: fondo, componente `.aero-window`, botones |
+| `assets/icons/` | Logo y recursos visuales |
 | `fontVista/` | Fuente Segoe UI |
 
 ## Notas técnicas
