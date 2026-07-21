@@ -35,78 +35,15 @@ create table usuarios(
     constraint fk_puesto_usuarios foreign key(id_puesto) references puesto(id_puesto)
 );
 
-create table estado_tarea(
-id_est_tarea int auto_increment primary key,
-descripcion_est_tarea varchar(50),
-eliminado bit default(0)
-);
+insert into departamento(nombre_departamento) values
+('Dirección y Estrategia'),
+('Administración y Finanzas'),
+('Recursos Humanos'),
+('Marketing y Ventas'),
+('Tecnología y Desarrollo'),
+('Operaciones, Logística y Producto'),
+('Legal y Calidad');
 
-create table tareas(
-	-- PKs y Fks
-	id_tarea int unsigned auto_increment primary key,
-    id_usuario_creador int not null,
-    id_est_tarea int default(1),
-    
-    -- Datos de la tarea
-    titulo varchar(25) not null,
-    descripcion_tarea varchar(250) not null,
-	
-    -- Gestion de la tarea
-    fecha_creacion datetime not null default current_timestamp,
-    fecha_limite datetime null,
-    fecha_completada datetime null,
-    
-    -- Estados
-    eliminado BIT DEFAULT(0),
-	es_general bit default(0),
-    
-    constraint fk_tarea_creador foreign key(id_usuario_creador) references usuarios(id_usuario),
-    constraint fk_tarea_estado foreign key(id_est_tarea) references estado_tarea(id_est_tarea)
-);
-
-create table tareas_departamento(-- pks y fks
-    id_tarea INT UNSIGNED not null,
-    id_departamento INT not null,
-    id_est_tarea int default(1),
-
-	-- datos
-    fecha_asignacion datetime not null default current_timestamp,
-    fecha_completada datetime null,
-	
-    -- estados
-    eliminado BIT DEFAULT(0),
-    completado bit default(0),
-
-    constraint fk_tud_tarea foreign key(id_tarea) references tareas(id_tarea),
-    constraint fk_tu_departamento foreign key(id_departamento) references departamento(id_departamento),
-    constraint fk_tarea_dep_estado foreign key(id_est_tarea) references estado_tarea(id_est_tarea),
-    constraint uq_tarea_usuario unique(id_tarea, id_departamento) -- Esto podria dar problemas a futuro(?). Comprendo la intencion, pero se debe monitorear.
-);
-
-create table tareas_usuarios(
-	-- pks y fks
-    id_tarea INT UNSIGNED not null,
-    id_usuario INT not null,
-    id_est_tarea int default(1),
-
-	-- datos
-    fecha_asignacion datetime not null default current_timestamp,
-    fecha_completada datetime null,
-	
-    -- estados
-    eliminado BIT DEFAULT(0),
-    completado bit default(0),
-
-    constraint fk_tu_tarea foreign key(id_tarea) references tareas(id_tarea),
-    constraint fk_tu_usuario foreign key(id_usuario) references usuarios(id_usuario),
-    constraint fk_tarea_usu_estado foreign key(id_est_tarea) references estado_tarea(id_est_tarea),
-    constraint uq_tarea_usuario unique(id_tarea, id_usuario) -- Esto podria dar problemas a futuro(?). Comprendo la intencion, pero se debe monitorear.
-);
-
--- Inserts
-
-insert into estado_tarea(descripcion_est_tarea) values ("Pendiente"),("En progreso"),("Completado"),("Fallido");
-insert into departamento(nombre_departamento) values ('Dirección y Estrategia'),('Administración y Finanzas'),('Recursos Humanos'),('Marketing y Ventas'),('Tecnología y Desarrollo'),('Operaciones, Logística y Producto'),('Legal y Calidad');
 insert into puesto(id_departamento,nombre_puesto,descripcion_puesto) values
 ((select id_departamento from departamento where nombre_departamento = 'Dirección y Estrategia'),		'Director General (CEO)',			'Máximo responsable de la empresa y de su estrategia global.'),
 ((select id_departamento from departamento where nombre_departamento = 'Dirección y Estrategia'),		'Director de Operaciones (COO)',		'Supervisa las operaciones diarias de la organización.'),
@@ -191,40 +128,3 @@ begin
 end
 //
 DELIMITER ;
-
-DELIMITER //
-use users;
-create procedure MOSTRAR_USUARIOS()
-begin
-    select u.id_usuario, u.id_puesto, u.nombre, u.email, u.fecha_registro, p.nombre_puesto
-    from usuarios u
-    join puesto p on u.id_puesto = p.id_puesto
-    where u.eliminado = 0;
-end
-//
-DELIMITER ;
-
-DELIMITER //
-create procedure MOSTRAR_USUARIO(_id_usuario int)
-begin
-    select u.id_usuario, u.nombre, u.email, u.fecha_registro, p.nombre_puesto
-    from usuarios u
-    join puesto p on u.id_puesto = p.id_puesto
-    where u.id_usuario = _id_usuario and u.eliminado = 0;
-end
-//
-DELIMITER ;
-
-DELIMITER //
-create procedure ELIMINAR_USUARIO_LOGICO(_id_usuario int)
-begin
-    update usuarios
-    set eliminado = 1
-    where id_usuario = _id_usuario and eliminado = 0;
-end
-//
-DELIMITER ;
-
--- Otros
-
-create index idx_tu_usuario on tareas_usuarios(id_usuario);

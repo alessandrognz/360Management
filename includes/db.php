@@ -80,6 +80,45 @@
         }
     }
         function ELIMINAR_USUARIO($nombre = ''){
+    class TBL_TAREA{
+        function SELECT_TAREAS_GENERALES($id){
+            global $Coneccion;
+            $tabla = [];
+
+
+            //Comando
+            $comando = $Coneccion->prepare("CALL SELECT_TAREAS_GENERALES(?);");
+            $comando->bind_param("i", $id);
+    
+    
+            //Llenado de variables
+            $comando->execute();
+    
+            //Obtener resultado
+            $result = $comando->get_result();
+            $comando->close();
+
+
+
+
+            if ($result) {
+                while ($row = $result->fetch_assoc()) {
+                    $tabla[] = $row;
+                }
+
+
+                $result->free();
+            }
+        
+            return $tabla; // Print es para pruebas visibles, se cambiaria por un return
+
+
+        }
+        function SELECT_TAREAS_PERSONALES(){
+            $a="1";
+        }
+        
+    }
             global $Coneccion;
 
             if ($nombre === '') {$nombre = $_SESSION['nombre'] ?? '';}
