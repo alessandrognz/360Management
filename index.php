@@ -1,12 +1,13 @@
 <?php
-  require_once 'includes/db.php';
+  require 'includes/db.php';
 
   if($_SERVER['REQUEST_METHOD']=== 'POST') {
 
-    $email = $_REQUEST['email'];
+    $email = $_POST['email'];
     $contrasena = $_POST['contrasena'] ?? '';
-
-    INICIAR_SESION($email, $contrasena);
+    
+    $con = new loginAndRegister();
+    $con->INICIAR_SESION($email, $contrasena);
 
   }
 ?>
