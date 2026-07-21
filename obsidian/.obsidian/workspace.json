@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "tareas/semana-2026-07-20/bloque-6-crud-usuarios-admin.md",
+                "file": "tareas/semana-2026-07-20/bloque-8-roles-permisos.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "bloque-6-crud-usuarios-admin"
+              "title": "bloque-8-roles-permisos"
             }
           }
         ]
@@ -185,11 +185,11 @@
   },
   "active": "71d64fd83c654fa3",
   "lastOpenFiles": [
+    "tareas/semana-2026-07-20/bloque-7-crud-tareas.md",
+    "tareas/semana-2026-07-20/bloque-6-crud-usuarios-admin.md",
     "2026-07-20.md",
     "Sin título.canvas",
-    "tareas/semana-2026-07-20/bloque-6-crud-usuarios-admin.md",
     "tareas/semana-2026-07-20/bloque-8-roles-permisos.md",
-    "tareas/semana-2026-07-20/bloque-7-crud-tareas.md",
     "tareas/semana-2026-07-20",
     "tareas/bloque-2-estructura-reutilizable.md",
     "tareas/bloque-4-validacion-mensajes.md",

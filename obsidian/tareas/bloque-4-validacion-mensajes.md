@@ -33,7 +33,7 @@ bloque: 4
 
 - [ ] **4.4 — Crear estilos para mensajes en CSS**
   Añadir las clases `.mensaje-error` y `.mensaje-exito` a `index.css` (páginas públicas) y a `session.css` (panel privado), manteniendo la estética Aero (colores, bordes, tipografía).
-  - Archivos afectados: `css/index.css`, `css/session.css`
+  - Archivos afectados: `assets/css/index.css`, `assets/css/session.css`
 
 ## Notas
 

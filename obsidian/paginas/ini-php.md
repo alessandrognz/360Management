@@ -35,7 +35,7 @@ POST → valida → llama INICIAR_SESION() → password_verify() → $_SESSION �
 | Archivo | Rol |
 |---------|-----|
 | `includes/db.php` | Función `INICIAR_SESION()` que llama al procedimiento almacenado |
-| `css/index.css` | Estilos del formulario |
+| `assets/css/index.css` | Estilos del formulario |
 | `session.php` | Destino tras login exitoso |
 
 ## Notas técnicas

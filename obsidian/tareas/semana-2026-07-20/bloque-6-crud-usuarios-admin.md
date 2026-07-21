@@ -11,14 +11,14 @@ semana: "2026-07-20"
 
 ## Tareas
 
-- [ ] **6.1 — Procedimientos de gestión de usuarios**
+- [x] **6.1 — Procedimientos de gestión de usuarios**
   Nuevos stored procedures en `db.sql`:
   - `LISTAR_USUARIOS()` — SELECT con JOIN a `puesto` y `departamento`, excluye `eliminado=1`
   - `ACTUALIZAR_USUARIO_ADMIN(id_usuario, nombre, email, id_puesto, rol)` — no toca `contrasena`
   - `ELIMINAR_USUARIO_LOGICO(id_usuario)` — UPDATE `eliminado=1`
   - Registrar en [[base-de-datos]]
 
-- [ ] **6.2 — Página `admin.php` — Listado de usuarios**
+- [x] **6.2 — Página `admin.php` — Listado de usuarios**
   Nueva página privada con tabla de todos los usuarios activos:
   - Inicio del archivo: `require_once 'includes/auth_check.php'; require_once 'includes/auth_rol.php'; requiere_admin();`
   - Columnas: Nombre, Email, Puesto, Departamento, Rol, Acciones (Editar | Desactivar)

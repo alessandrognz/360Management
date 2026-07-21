@@ -55,7 +55,7 @@ Login exitoso en ini.php → redirect aquí → muestra panel personalizado
 |---------|-----|
 | `includes/auth_check.php` | ✅ Protección de acceso activa |
 | `includes/nav.php` | Nav extraído (Bloque 2) |
-| `css/session.css` | Estilos del panel (nav, layout) |
+| `assets/css/session.css` | Estilos del panel (nav, layout) |
 
 ## Notas técnicas
 

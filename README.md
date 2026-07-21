@@ -27,11 +27,12 @@ Aplicación web de gestión de usuarios/empresa construida con PHP procedural y 
 │   ├─ auth_check.php      Comprobación de sesión activa (protege páginas privadas)
 │   ├─ logout.php          Destrucción de sesión y redirección a login
 │   └─ nav.php             Sidebar + footer compartido
-├─ css/
-│   ├─ index.css           Estilos públicos (login, registro, landing)
-│   └─ session.css         Estilos del área autenticada
-├─ Icons/                  Biblioteca de iconos SVG/PNG (160+ variantes)
-├─ img/                    Imágenes de la landing
+├─ assets/
+│   ├─ css/
+│   │   ├─ index.css       Estilos públicos (login, registro, landing)
+│   │   └─ session.css     Estilos del área autenticada
+│   ├─ icons/              Biblioteca de iconos SVG/PNG (160+ variantes)
+│   └─ img/                Imágenes de la landing
 └─ db.sql                  Schema completo de la base de datos con datos iniciales
 ```
 
