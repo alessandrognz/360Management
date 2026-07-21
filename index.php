@@ -2,20 +2,20 @@
   require 'includes/db.php';
 
   if($_SERVER['REQUEST_METHOD']=== 'POST') {
+    $action = $_GET['action']??'';
+    echo '<script>console.log("Entrando en el post '.$action.'");</script>' ; 
 
-    $email = $_POST['email'];
-    $contrasena = $_POST['contrasena'] ?? '';
+    if ($action == 'ini'){
+      echo '<script>console.log("Entrando en ini");</script>'; 
+
+      $email = $_POST['email'];
+      $contrasena = $_POST['contrasena'] ?? '';
     
-    $con = new loginAndRegister();
-    $con->INICIAR_SESION($email, $contrasena);
+      $con = new loginAndRegister();
+      $con->INICIAR_SESION($email, $contrasena);
+    }
 
-  }
-?>
-<?php
-    require_once 'includes/db.php';
-
-    if($_SERVER['REQUEST_METHOD'] === 'POST') {
-
+    if ($action == 'reg'){
 			//Obtencion de variables del formulario
       $nombre = $_POST['nombre']??'';
       $email = $_POST['email']??'';
@@ -25,7 +25,7 @@
       $contrasena2 = $_POST['contrasena2']??'';      
 
 			//Consulta
-      if($contrasena === $contrasena2){
+    if($contrasena === $contrasena2){
         $contrasena = password_hash($_POST['contrasena']??'', PASSWORD_BCRYPT);
         $con = new loginAndRegister();
         
@@ -35,7 +35,8 @@
       }
       else{
         $mensaje = 'Las contraseñas introducidas deben coincidir.';
-        echo "<script>alert('$mensaje');</script>";
+        echo "<script>alert('$mensaje');</script>";      
+          }
       }
 		}    
 ?>
@@ -52,7 +53,7 @@
     <div class="landing">
       <div class="logo"><img src="assets/icons/logo+360Management.png" alt="360Management"></div>
       <div class="buttons">
-        <button id="btn-login" class="btn btn-primary">Iniciar Sesión</button>
+        <button id="btn-login" class="btn btn-primary" >Iniciar Sesión</button>
         <button id="btn-registro" class="btn btn-secondary">Registrarse</button>
       </div>
     </div>
@@ -63,7 +64,7 @@
         <h1>Bienvenido a 360Management!</h1>
         <p class="subtitle">Introduce tus credenciales para acceder</p>
 
-        <form action="index.php" method="POST">
+        <form action="index.php?action=ini" method="POST">
           <div class="field">
             <label for="email">Correo electrónico</label>
             <input type="email" id="email" name="email" placeholder="Enter your email" />
@@ -88,7 +89,7 @@
         <button class="modal-close" data-modal="modal-registro">&times;</button>
         <h1>Empieza ahora mismo</h1>
 
-      <form action="index.php" method="POST">
+      <form action="index.php?action=reg" method="POST">
         <div class="field">
           <label for="nombre">Nombre</label>
           <input type="text" id="nombre" name="nombre" placeholder="Introduce tu nombre" />
