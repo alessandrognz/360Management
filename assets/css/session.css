@@ -418,3 +418,114 @@ main {
   border-color: #e2e8df;
   cursor: not-allowed;
 }
+
+/* ——— Ajustes (settings.php) ——— */
+
+.settings-profile-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background-color: #ffffff;
+  border: 1px solid #e2e8df;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.settings-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.settings-profile-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.settings-profile-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.settings-profile-email {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.settings-section {
+  background-color: #ffffff;
+  border: 1px solid #e2e8df;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.settings-section-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 16px;
+}
+
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  max-width: 360px;
+}
+
+.form-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: #111827;
+  margin-bottom: 8px;
+}
+
+.form-input:focus-visible {
+  outline: 2px solid #4a6741;
+  outline-offset: 1px;
+  border-color: #4a6741;
+}
+
+.settings-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.settings-message {
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.settings-message--exito {
+  color: #166534;
+  background-color: #eef2ec;
+  border: 1px solid #bfe0c8;
+}
+
+.settings-message--error {
+  color: #991b1b;
+  background-color: #fdecec;
+  border: 1px solid #f3d0d0;
+}

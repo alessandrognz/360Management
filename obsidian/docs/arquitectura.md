@@ -30,12 +30,17 @@ includes/
 └─ footer_privado.php  ✅ Footer páginas privadas (Bloque 2, 2026-07-19)
 ```
 
-## CSS
+## Assets
+
+Unificados bajo `assets/` (reordenado 2026-07-21, antes eran `css/`, `img/` e `Icons/` sueltas en la raíz):
 
 ```
-css/
-├─ index.css    Estilos públicos: formularios de login/registro, layout flexbox
-└─ session.css  Estilos privados: nav, layout del panel
+assets/
+├─ css/
+│  ├─ index.css    Estilos públicos: formularios de login/registro, layout flexbox
+│  └─ session.css  Estilos privados: nav, layout del panel
+├─ icons/          ~328 iconos SVG/PNG (Edit, Search, Settings, Info, logo, profile, etc.)
+└─ img/            Capturas y referencias de diseño (no usadas en código)
 ```
 
 No crear nuevos estilos base desde cero — extender los existentes manteniendo la paleta y el sistema de diseño.
@@ -51,7 +56,7 @@ Rediseño completo realizado en la semana del 14–19 jul. La estética Aero/Vis
 
 **Layout:** Flexbox en todas las páginas.
 
-**Iconos:** Biblioteca SVG/PNG añadida (~328 iconos: Edit, Search, Settings, Info, etc.). Los iconos se referencian como `<img src="assets/icons/...">` o inline SVG según contexto.
+**Iconos:** Biblioteca SVG/PNG añadida (~328 iconos: Edit, Search, Settings, Info, etc.) en `assets/icons/`. Se referencian como `<img src="assets/icons/...">` o inline SVG según contexto.
 
 **Componentes UI:**
 - Formularios rediseñados con mejor UX y validación visual

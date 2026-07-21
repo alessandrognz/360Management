@@ -31,8 +31,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="Icons/logo.png" />
-    <link rel="stylesheet" href="css/index.css" />
+    <link rel="icon" type="image/png" href="assets/icons/logo.png" />
+    <link rel="stylesheet" href="assets/css/index.css" />
     <title>Registrarse</title>
   </head>
   <body>

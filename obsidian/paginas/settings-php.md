@@ -1,32 +1,31 @@
 ---
-tags: [pagina, privada, placeholder]
+tags: [pagina, privada, parcial]
 archivo: settings.php
-estado: placeholder
+estado: parcial
 tipo: privada
 ---
 
 # settings.php — Configuración y Perfil
 
-## Qué hará
+## Qué hace
 
-Sección para que el usuario edite sus datos de perfil y cambie su contraseña.
+Sección para que el usuario edite sus datos de perfil. Cambio de nombre implementado; cambio de contraseña pendiente.
 
 ## Estado
 
-🔲 Creada como placeholder (2026-07-19). Tiene nav, auth y estructura base pero sin formularios de edición. Ver [[bloque-5-funcionalidades-futuras]], tarea 5.3 para la funcionalidad completa.
+🟡 Parcial (2026-07-21). Tarjeta de perfil (avatar, nombre, email, puesto) + formulario "Editar perfil" funcional que llama a `CAMBIAR_NOMBRE_USUARIO()`. El formulario roto anterior (`action="includes/db.php"`, enlace a `db.php` inexistente) fue sustituido. Cambio de contraseña sigue pendiente — ver [[bloque-5-funcionalidades-futuras]], tarea 5.3.
 
 ## Funcionalidades previstas
 
-- **Cambiar nombre**: formulario con el nombre actual precargado, envío por POST
-- **Cambiar contraseña**: tres campos (contraseña actual, nueva contraseña, confirmar nueva). Verificar actual con `password_verify()`, hashear nueva con `password_hash(BCRYPT)`.
+- **Cambiar nombre**: ✅ formulario con el nombre actual precargado, envío por POST (`accion=cambiar_nombre`)
+- **Cambiar contraseña**: pendiente. Tres campos (contraseña actual, nueva contraseña, confirmar nueva). Verificar actual con `password_verify()`, hashear nueva con `password_hash(BCRYPT)`.
 - **Cambiar puesto** (TBD): si se decide permitir al usuario cambiar su propio puesto
-- **Cerrar sesión**: botón de logout (enlaza a `logout.php`)
+- **Cerrar sesión**: ya cubierto por el enlace de logout en `includes/nav.php`, no duplicado aquí
 
 ## Requisitos de BD pendientes
 
-- Nuevo procedimiento: `ACTUALIZAR_NOMBRE(id_usuario, nombre)` — devuelve `row_count()` como respuesta
+- `CAMBIAR_NOMBRE_USUARIO(id_usuario, nombre)` y `MOSTRAR_USUARIO(id_usuario)` ✅ ya existían en `db.sql`/`db.php`, reutilizados sin cambios
 - Nuevo procedimiento: `CAMBIAR_CONTRASENA(id_usuario, nueva_contrasena)` — la verificación de la contraseña actual se hace en PHP con `password_verify()`, no en el procedimiento
-- Añadir en: `db.sql` y `procedure.sql`
 
 ## Requisitos de includes
 

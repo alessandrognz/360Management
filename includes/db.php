@@ -130,4 +130,13 @@
         $comando->execute();
         $comando->close();
     }
+    function CAMBIAR_NOMBRE_USUARIO($id_usuario = 0, $new_nombre = '') {
+        global $Coneccion;
+
+        $comando = $Coneccion->prepare('CALL CAMBIAR_NOMBRE_USUARIO(?,?);');
+        $comando->bind_param("is", $id_usuario, $new_nombre);
+        $comando->execute();
+
+        $comando->close();
+    }
 ?>

@@ -1,16 +1,17 @@
 <?php
-    require 'db.php';
-    session_start();
-    global $Coneccion;
+    require __DIR__ . '/auth_check.php';
+    require __DIR__ . '/db.php';
 
-    $nombre = $_SESSION['nombre'] ?? '';
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        ELIMINAR_USUARIO_LOGICO((int) $_SESSION['id_usuario']);
 
-    $comando = $Coneccion->prepare("CALL ELIMINAR_USUARIO(?);");
-    $comando->bind_param("s", $nombre);
-    $comando->execute();
-    $comando->close();
+        $_SESSION = [];
+        session_destroy();
 
-    session_destroy();
-    header("Location: index.html");
+        header('Location: ../ini.php');
+        exit();
+    }
+
+    header('Location: ../settings.php');
     exit();
-        
+?>

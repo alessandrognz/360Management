@@ -31,7 +31,7 @@ El panel home no tiene tarjetas de resumen (tareas pendientes, mensajes sin leer
 Los mensajes de error/éxito en `ini.php` y `registr.php` son `echo` o `alert()` sin estilo coherente.
 
 - **Solución**: tareas 4.1–4.4 del [[bloque-4-validacion-mensajes]]
-- **Archivos afectados**: `ini.php`, `registr.php`, `css/index.css`
+- **Archivos afectados**: `ini.php`, `registr.php`, `assets/css/index.css`
 
 ---
 
