@@ -63,48 +63,58 @@
             </div>
         </div>
 
-        <section class="settings-section">
-            <h2 class="settings-section-title">Editar perfil</h2>
+        <div class="settings-grid">
+            <section class="settings-section">
+                <h2 class="settings-section-title">Editar perfil</h2>
 
-            <?php if ($mensaje !== '' && $seccion_mensaje === 'perfil'): ?>
-            <p class="settings-message<?= $error ? ' settings-message--error' : ' settings-message--exito' ?>"><?= htmlspecialchars($mensaje) ?></p>
-            <?php endif; ?>
+                <?php if ($mensaje !== '' && $seccion_mensaje === 'perfil'): ?>
+                <p class="settings-message<?= $error ? ' settings-message--error' : ' settings-message--exito' ?>"><?= htmlspecialchars($mensaje) ?></p>
+                <?php endif; ?>
 
-            <form method="post" action="settings.php" class="settings-form">
-                <input type="hidden" name="accion" value="cambiar_nombre">
-                <label class="form-label" for="nombre">Nombre</label>
-                <input type="text" id="nombre" name="nombre" class="form-input" value="<?= htmlspecialchars($usuario['nombre']) ?>" required>
-                <div class="settings-actions">
-                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
-                    <button type="submit" form="form-eliminar-usuario" class="btn btn-danger">Eliminar usuario</button>
-                </div>
-            </form>
+                <form method="post" action="settings.php" class="settings-form">
+                    <input type="hidden" name="accion" value="cambiar_nombre">
+                    <label class="form-label" for="nombre">Nombre</label>
+                    <input type="text" id="nombre" name="nombre" class="form-input" value="<?= htmlspecialchars($usuario['nombre']) ?>" required>
+                    <div class="settings-actions">
+                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="settings-section">
+                <h2 class="settings-section-title">Cambiar contraseña</h2>
+
+                <?php if ($mensaje !== '' && $seccion_mensaje === 'contrasena'): ?>
+                <p class="settings-message<?= $error ? ' settings-message--error' : ' settings-message--exito' ?>"><?= htmlspecialchars($mensaje) ?></p>
+                <?php endif; ?>
+
+                <form method="post" action="settings.php" class="settings-form">
+                    <input type="hidden" name="accion" value="cambiar_contrasena">
+
+                    <label class="form-label" for="contrasena_actual">Contraseña actual</label>
+                    <input type="password" id="contrasena_actual" name="contrasena_actual" class="form-input" placeholder="Introduce tu contraseña actual" required>
+
+                    <label class="form-label" for="contrasena_nueva">Nueva contraseña</label>
+                    <input type="password" id="contrasena_nueva" name="contrasena_nueva" class="form-input" placeholder="Mínimo 8 caracteres" required minlength="8">
+
+                    <label class="form-label" for="contrasena_confirmar">Repite la nueva contraseña</label>
+                    <input type="password" id="contrasena_confirmar" name="contrasena_confirmar" class="form-input" placeholder="Repite la nueva contraseña" required minlength="8">
+
+                    <div class="settings-actions">
+                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+
+        <div class="settings-danger-bar">
+            <div class="settings-danger-copy">
+                <span class="settings-danger-title">Eliminar cuenta</span>
+                <span class="settings-danger-text">Esta acción es permanente y no se puede deshacer.</span>
+            </div>
             <form id="form-eliminar-usuario" method="post" action="includes/delete_user.php" onsubmit="return confirm('¿Seguro que quieres eliminar tu cuenta? Esta acción no se puede deshacer.');"></form>
-            <br>
-
-            <h2 class="settings-section-title">Cambiar contraseña</h2>
-
-            <?php if ($mensaje !== '' && $seccion_mensaje === 'contrasena'): ?>
-            <p class="settings-message<?= $error ? ' settings-message--error' : ' settings-message--exito' ?>"><?= htmlspecialchars($mensaje) ?></p>
-            <?php endif; ?>
-
-            <form method="post" action="settings.php" class="settings-form">
-                <input type="hidden" name="accion" value="cambiar_contrasena">
-
-                <label class="form-label" for="contrasena_actual">Contraseña actual</label>
-                <input type="password" id="contrasena_actual" name="contrasena_actual" class="form-input" placeholder="Introduce tu contraseña actual" required>
-
-                <label class="form-label" for="contrasena_nueva">Nueva contraseña</label>
-                <input type="password" id="contrasena_nueva" name="contrasena_nueva" class="form-input" placeholder="Mínimo 8 caracteres" required minlength="8">
-
-                <label class="form-label" for="contrasena_confirmar">Repite la nueva contraseña</label>
-                <input type="password" id="contrasena_confirmar" name="contrasena_confirmar" class="form-input" placeholder="Repite la nueva contraseña" required minlength="8">
-
-                <div class="settings-actions">
-                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
-                </div>
-            </form>
-        </section>
+            <button type="submit" form="form-eliminar-usuario" class="btn btn-danger">Eliminar usuario</button>
+        </div>
     </main>
     <?php $layout_part = 'footer'; require 'includes/nav.php'; ?>
 </body>
