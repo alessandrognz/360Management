@@ -79,25 +79,22 @@ class loginAndRegister
             $_SESSION['id_puesto'] = $usuario['id_puesto'];
             $_SESSION['email'] = $email;
 
-            header('Location: session.php');
-            exit();
-        };
-        return false;
+                header('Location: session.php');
+                exit();
+            };
+            return false;
+        }
     }
-}
-
-class CRUD_USER
-{
-    function ELIMINAR_USUARIO($nombre = '')
-    {
+   
+    
+    
+    function ELIMINAR_USUARIO($nombre = ''){
         global $Coneccion;
 
-        if ($nombre === '') {
-            $nombre = $_SESSION['nombre'] ?? '';
-        }
+        if ($nombre === '') {$nombre = $_SESSION['nombre'] ?? '';}
 
-        $comando = $Coneccion->prepare('CALL ELIMINAR_USUARIO(?);');
-        $comando->bind_param('s', $nombre);
+        $comando = $Coneccion->prepare("CALL ELIMINAR_USUARIO(?);");
+        $comando->bind_param("s", $nombre);
         $comando->execute();
         $comando->close();
 
@@ -108,37 +105,129 @@ class CRUD_USER
 
     function MOSTRAR_USUARIO($id_usuario = 0)
     {
+        session_destroy();
+        header("Location: index.html");
+        exit();
+    }
+    class CRUD_TAREAS{
+        function INSERTAR_TAREA(int $_id_usuario_creador, string $_titulo, string $_descripcion_tarea, $_fecha_limite , int $_es_general, $_listado_enviar){
+            global $Coneccion;
+
+            $comando = $Coneccion->prepare("CALL INSERTAR_TAREA(?,?,?,?,?);");
+            $comando->bind_param("isssi", $_id_usuario_creador,$_titulo,$_descripcion_tarea,$_fecha_limite,$_es_general);
+            $comando->execute();
+
+            $result   = $comando->get_result();
+            $id = $result->fetch_all(MYSQLI_ASSOC);
+            $result->free();
+            $comando->close();
+            $id_tarea = $id[0]["insertado"];
+            if($_es_general == 0){
+                foreach ($_listado_enviar as $ids) {
+                    $comando = $Coneccion->prepare("CALL DESTINAR_A_USAURIO(?,?);");
+                    $comando->bind_param("ii", $id_tarea,$ids);
+                    $comando->execute();
+                    $comando->close();
+
+                }
+
+            }elseif($_es_general == 1){
+                 foreach ($_listado_enviar as $ids) {
+                    $comando = $Coneccion->prepare("CALL DESTINAR_A_DEPARTAMENTO(?,?);");
+                    $comando->bind_param("ii", $id_tarea,$ids);
+                    $comando->execute();
+                    $comando->close();
+
+                }
+
+            }
+            
+
+        }
+        function SELECT_TAREAS_GENERALES(int $_id_puesto){
+            global $Coneccion;
+
+            $comando = $Coneccion->prepare("CALL SELECT_TAREAS_GENERALES(?);");
+            $comando->bind_param("i", $_id_puesto);
+            $comando->execute();
+
+            $result  = $comando->get_result();
+            $tareas = $result->fetch_all(MYSQLI_ASSOC);
+            $result->free();
+            $comando->close();
+
+            return $tareas;
+        }
+        function SELECT_TAREAS_PERSONALES(int $_id_usuario){
+            global $Coneccion;
+
+            $comando = $Coneccion->prepare("CALL SELECT_TAREAS_PERSONALES(?);");
+            $comando->bind_param("i", $_id_usuario);
+            $comando->execute();
+
+            $result  = $comando->get_result();
+            $tareas = $result->fetch_all(MYSQLI_ASSOC);
+            $result->free();
+            $comando->close();
+
+            return $tareas;
+        }
+        function MOSTRAR_USUARIOS() {
+            global $Coneccion;
+
+            $comando = $Coneccion->prepare("CALL MOSTRAR_USUARIOS();");
+            $comando->execute();
+
+            $result   = $comando->get_result();
+            $usuarios = $result->fetch_all(MYSQLI_ASSOC);
+            $result->free();
+            $comando->close();
+
+            return $usuarios;
+        }
+        function LISTAR_DEPARTAMENTOS(){
+            global $Coneccion;
+
+            $comando = $Coneccion->prepare("CALL LISTAR_DEPARTAMENTOS();");
+            $comando->execute();
+
+            $result   = $comando->get_result();
+            $departamentos = $result->fetch_all(MYSQLI_ASSOC);
+            $result->free();
+            $comando->close();
+
+            return $departamentos;
+        }
+    }
+
+    function MOSTRAR_USUARIO($id_usuario = 0) {
         global $Coneccion;
 
-        $comando = $Coneccion->prepare('CALL MOSTRAR_USUARIO(?);');
-        $comando->bind_param('i', $id_usuario);
+        $comando = $Coneccion->prepare("CALL MOSTRAR_USUARIO(?);");
+        $comando->bind_param("i", $id_usuario);
         $comando->execute();
 
-        $result = $comando->get_result();
+        $result  = $comando->get_result();
         $usuario = $result->fetch_assoc();
         $result->free();
         $comando->close();
 
         return $usuario;
     }
-
-    function MOSTRAR_USUARIOS()
-    {
+    function MOSTRAR_USUARIOS() {
         global $Coneccion;
 
-        $comando = $Coneccion->prepare('CALL MOSTRAR_USUARIOS();');
+        $comando = $Coneccion->prepare("CALL MOSTRAR_USUARIOS();");
         $comando->execute();
 
-        $result = $comando->get_result();
+        $result   = $comando->get_result();
         $usuarios = $result->fetch_all(MYSQLI_ASSOC);
         $result->free();
         $comando->close();
 
         return $usuarios;
     }
-
-    function ELIMINAR_USUARIO_LOGICO($id_usuario = 0)
-    {
+    function ELIMINAR_USUARIO_LOGICO($id_usuario = 0) {
         global $Coneccion;
 
         $comando = $Coneccion->prepare('CALL ELIMINAR_USUARIO_LOGICO(?);');
@@ -157,76 +246,4 @@ class CRUD_USER
 
         $comando->close();
     }
-
-    function CAMBIAR_CONTRASENA($contrasena = '', $nueva_contrasena = '')
-    {
-        global $Coneccion;
-
-        $comando = $Coneccion->prepare('CALL VERIFICAR_CONTRASENA(?);');
-        $email = $_SESSION['email'];
-        $comando->bind_param('s', $email);
-        $comando->execute();
-
-        $_contrasena = $comando->get_result();
-        $usuario = $_contrasena->fetch_assoc();
-        $comando->close();
-
-        if (!$usuario) {
-            return false;
-        }
-
-        if (password_verify($contrasena, $usuario['contrasena'])) {
-            if (!function_exists('REMPLAZAR_CONTRASENA')) {
-                function REMPLAZAR_CONTRASENA(int $id_usuario, $new_contrasena = '')
-                {
-                    global $Coneccion;
-                    $comando = $Coneccion->prepare('CALL CAMBIAR_CONTRASENA(?,?);');
-
-                    $comando->bind_param('is', $id_usuario, $new_contrasena);
-                    $comando->execute();
-                    $comando->close();
-                }
-            }
-
-            REMPLAZAR_CONTRASENA($usuario['id_usuario'], password_hash($nueva_contrasena, PASSWORD_BCRYPT));
-            return true;
-        }
-        return false;
-    }
-}
-
-class TBL_TAREA
-{
-    function SELECT_TAREAS_GENERALES(int $id)
-    {
-        global $Coneccion;
-        $tabla = [];
-
-        // Comando
-        $comando = $Coneccion->prepare('CALL SELECT_TAREAS_GENERALES(?);');
-        $comando->bind_param('i', $id);
-
-        // Llenado de variables
-        $comando->execute();
-
-        // Obtener resultado
-        $result = $comando->get_result();
-        $comando->close();
-
-        if ($result) {
-            while ($row = $result->fetch_assoc()) {
-                $tabla[] = $row;
-            }
-
-            $result->free();
-        }
-
-        return $tabla;  // Print es para pruebas visibles, se cambiaria por un return
-    }
-
-    function SELECT_TAREAS_PERSONALES()
-    {
-        $a = '1';
-    }
-}
 ?>
