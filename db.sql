@@ -174,3 +174,13 @@ begin
 end
 //
 DELIMITER ;
+
+DELIMITER //
+create procedure CAMBIAR_EMAIL(_id_usuario int ,_email varchar(50))
+begin
+	update usuarios 
+    set email = _email
+    where id_usuario = _id_usuario and eliminado = 0;
+end
+//
+DELIMITER ;

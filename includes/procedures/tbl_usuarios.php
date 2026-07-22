@@ -104,12 +104,6 @@ class CRUD_USER
             REMPLAZAR_CONTRASENA($usuario['id_usuario'], password_hash($nueva_contrasena, PASSWORD_BCRYPT));
             return true;
         }
-
         return false;
     }
 }
-
-class usuario extends CRUD_USER
-{
-}
-?>
