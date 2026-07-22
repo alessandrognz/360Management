@@ -12,6 +12,9 @@
     $tareas_generales = $crud->SELECT_TAREAS_GENERALES($_SESSION["id_puesto"]);
     $tareas_departamento = $crud->SELECT_TAREAS_PERSONALES($_SESSION["id_usuario"]);
 
+    $mensaje_tarea = '';
+    $error_tarea = false;
+
     //Metodos
     if($_SERVER["REQUEST_METHOD"] === "POST"){
         $action = $_GET['action']??"";
@@ -62,14 +65,28 @@
             }elseif($destino_tipo == "departamento"){
                 $destino_tipo=1;
             }
+
+            // Validar fecha límite: obligatoria y no anterior a la fecha actual
+            if ($fecha_raw === '' || $fecha_limite === '') {
+                $error_tarea = true;
+                $mensaje_tarea = 'Debes indicar una fecha límite.';
+            } else {
+                $fecha_limite_dt = DateTime::createFromFormat('Y-m-d H:i:s', $fecha_limite);
+                if ($fecha_limite_dt === false || $fecha_limite_dt < new DateTime()) {
+                    $error_tarea = true;
+                    $mensaje_tarea = 'La fecha límite no puede ser anterior a la fecha actual.';
+                }
+            }
+
             //crear tarea
-            if($destino_tipo == 0){
-                $crud->INSERTAR_TAREA($id_emisor,$titulo,$descipcion,$fecha_limite,$destino_tipo,$personas_a_enviar);
+            if (!$error_tarea) {
+                if($destino_tipo == 0){
+                    $crud->INSERTAR_TAREA($id_emisor,$titulo,$descipcion,$fecha_limite,$destino_tipo,$personas_a_enviar);
+                }
+                if($destino_tipo == 1){
+                    $crud->INSERTAR_TAREA($id_emisor,$titulo,$descipcion,$fecha_limite,$destino_tipo,$departamentos_a_enviar);
+                }
             }
-            if($destino_tipo == 1){
-                $crud->INSERTAR_TAREA($id_emisor,$titulo,$descipcion,$fecha_limite,$destino_tipo,$departamentos_a_enviar);
-            }
-            
 
 
         }
@@ -98,7 +115,6 @@
     <main>
         <div>
             <h1 class="page-title">Tareas</h1>
-            <button class="add">Añadir Tarea +</button>
         </div>
         <div>
             <h1>Tareas Generales</h1>
@@ -152,6 +168,9 @@
         <div>
             <h1>Crear tarea</h1>
             <div>
+                <?php if ($mensaje_tarea !== ''): ?>
+                <p class="settings-message<?= $error_tarea ? ' settings-message--error' : ' settings-message--exito' ?>"><?= htmlspecialchars($mensaje_tarea) ?></p>
+                <?php endif; ?>
                 <form action="tasks.php?action=crear" method="POST">
                     <label>Titulo</label>
                     <input name="titulo" type="text">
@@ -160,7 +179,7 @@
                     <input name="descipcion" type="text">
                     <br>
                     <label>fecha limite</label>
-                    <input name="fecha_limite" type="datetime-local">
+                    <input name="fecha_limite" type="datetime-local" required min="<?php echo date('Y-m-d\TH:i'); ?>">
                     <br>
                     <label>Para:</label>
                     <input type="radio" name="destino_tipo" id="tipo_persona" value="persona"> Persona
@@ -193,7 +212,7 @@
                         <div id="departamentos_list_display" style="margin-top:8px;"></div>
                     </div>
                     <br>
-                    <input type="submit" value="Crear tarea">
+                    <input type="submit" value="Crear tarea +" class="add">
                 </form>
             </div>
         </div>

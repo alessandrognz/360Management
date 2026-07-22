@@ -568,3 +568,257 @@ main {
   background-color: #fdecec;
   border: 1px solid #f3d0d0;
 }
+
+/* ============================================================
+   Tareas (tasks.php)
+   ============================================================ */
+
+main > div {
+  margin-bottom: 28px;
+}
+
+main > div:last-child {
+  margin-bottom: 0;
+}
+
+main > div > h1:not(.page-title) {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 16px;
+}
+
+/* Tarjetas de sección: tablas de tareas + formulario de creación */
+main > div:nth-of-type(2),
+main > div:nth-of-type(3),
+main > div:nth-of-type(4) {
+  background-color: #ffffff;
+  border: 1px solid #e2e8df;
+  border-radius: 12px;
+  padding: 22px 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+main > div:nth-of-type(2),
+main > div:nth-of-type(3) {
+  overflow-x: auto;
+}
+
+/* ——— Tablas de tareas ——— */
+
+main table {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+}
+
+main table th {
+  text-align: left;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 10px 14px;
+  border-bottom: 2px solid #e2e8df;
+  white-space: nowrap;
+}
+
+main table td {
+  padding: 13px 14px;
+  font-size: 0.85rem;
+  color: #374151;
+  border-bottom: 1px solid #e2e8df;
+  white-space: nowrap;
+  transition: background-color 0.15s ease;
+}
+
+main table tr:last-of-type td {
+  border-bottom: none;
+}
+
+main table tr:nth-child(even) td {
+  background-color: #f8f9f7;
+}
+
+main table tr:hover td {
+  background-color: #eef0ec;
+}
+
+main table td:last-child {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #4a6741;
+}
+
+/* ——— Formulario "Crear tarea" ——— */
+
+form[action="tasks.php?action=crear"] {
+  max-width: 460px;
+}
+
+form[action="tasks.php?action=crear"] br {
+  display: none;
+}
+
+form[action="tasks.php?action=crear"] label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+form[action="tasks.php?action=crear"] input[type="text"],
+form[action="tasks.php?action=crear"] input[type="datetime-local"] {
+  display: block;
+  width: 100%;
+  max-width: 420px;
+  padding: 10px 14px;
+  margin-bottom: 18px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: #374151;
+  background-color: #ffffff;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+form[action="tasks.php?action=crear"] input[type="text"]:focus,
+form[action="tasks.php?action=crear"] input[type="datetime-local"]:focus {
+  border-color: #4a6741;
+  box-shadow: 0 0 0 3px rgba(74, 103, 65, 0.12);
+}
+
+form[action="tasks.php?action=crear"] input[type="radio"] {
+  width: 15px;
+  height: 15px;
+  margin-right: 6px;
+  margin-left: 4px;
+  accent-color: #4a6741;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+form[action="tasks.php?action=crear"] input[type="radio"]:first-of-type {
+  margin-left: 0;
+}
+
+form[action="tasks.php?action=crear"] .add {
+  margin-top: 10px;
+}
+
+/* Bloques dinámicos de selección (persona / departamento) */
+
+#person_block,
+#dept_block {
+  background-color: #f7f8f6;
+  border: 1px solid #e2e8df;
+  border-radius: 10px;
+  padding: 16px;
+  margin-top: 4px !important;
+  margin-bottom: 18px;
+}
+
+#personal,
+#departamento {
+  width: 100%;
+  max-width: 300px;
+  padding: 9px 34px 9px 12px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: #374151;
+  background-color: #ffffff;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239ca3af' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.15s ease;
+  margin-bottom: 4px;
+}
+
+#personal:focus,
+#departamento:focus {
+  border-color: #4a6741;
+}
+
+#add_person_btn,
+#add_dept_btn {
+  padding: 9px 18px;
+  margin-left: 8px;
+  background-color: #ffffff;
+  color: #4a6741;
+  border: 1.5px solid #4a6741;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  vertical-align: middle;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+#add_person_btn:hover,
+#add_dept_btn:hover {
+  background-color: #4a6741;
+  color: #ffffff;
+}
+
+#personas_list_display,
+#departamentos_list_display {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px !important;
+}
+
+#personas_list_display strong,
+#departamentos_list_display strong {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #374151;
+  margin-right: 2px;
+}
+
+/* Chips generados por JS (.selected-item / .remove-item llevan estilos
+   inline en el markup generado; se sobrescriben con !important) */
+
+.selected-item {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px !important;
+  margin: 0 !important;
+  background-color: #eef2ec !important;
+  border: 1px solid #bfe0c8 !important;
+  border-radius: 999px !important;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #166534;
+}
+
+.selected-item .remove-item {
+  margin-left: 0 !important;
+  padding: 1px 6px;
+  border: none;
+  border-radius: 50%;
+  background-color: transparent;
+  color: #6b7280;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.4;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.selected-item .remove-item:hover {
+  background-color: #b91c1c;
+  color: #ffffff;
+}
