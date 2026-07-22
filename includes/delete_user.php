@@ -1,17 +1,19 @@
 <?php
-    require __DIR__ . '/auth_check.php';
-    require __DIR__ . '/db.php';
+require __DIR__ . '/auth_check.php';
+require __DIR__ . '/db.php';
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        ELIMINAR_USUARIO_LOGICO((int) $_SESSION['id_usuario']);
+$crud_user = new CRUD_USER();
 
-        $_SESSION = [];
-        session_destroy();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $crud_user->ELIMINAR_USUARIO_LOGICO((int) $_SESSION['id_usuario']);
 
-        header('Location: ../ini.php');
-        exit();
-    }
+    $_SESSION = [];
+    session_destroy();
 
-    header('Location: ../settings.php');
+    header('Location: ../index.php');
     exit();
+}
+
+header('Location: ../settings.php');
+exit();
 ?>

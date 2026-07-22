@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "35f60e191ad42339",
+        "id": "7af7fa858118e77d",
         "type": "tabs",
         "children": [
           {
-            "id": "71d64fd83c654fa3",
+            "id": "19d010d966e8290e",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "tareas/semana-2026-07-20/bloque-8-roles-permisos.md",
+                "file": "docs/arquitectura.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "bloque-8-roles-permisos"
+              "title": "arquitectura"
             }
           }
         ]
@@ -180,36 +180,41 @@
       "daily-notes:Abrir la nota de hoy": false,
       "templates:Insertar plantilla": false,
       "command-palette:Abrir paleta de comandos": false,
-      "bases:Crear nueva base": false
+      "bases:Crear nueva base": false,
+      "claude-code-skills:Open skills panel": false
     }
   },
-  "active": "71d64fd83c654fa3",
+  "active": "19d010d966e8290e",
   "lastOpenFiles": [
+    "Inicio.md",
+    "semanas/semana-2026-07-20.md",
+    "semanas/semana-2026-07-20.md.tmp.9220.cea5a1f303c5",
+    "semanas/semana-2026-07-19.md.tmp.9220.bc6538ad006d",
+    "semanas/semana-2026-07-19.md.tmp.9220.c29e72701996",
+    "semanas/semana-2026-07-19.md.tmp.9220.6e8535c6fe66",
+    "tareas/bloque-5-funcionalidades-futuras.md.tmp.9220.36a4775c2b56",
+    "tareas/bloque-4-validacion-mensajes.md.tmp.9220.1d4fca5c4d8d",
+    "tareas/bloque-3-panel-session.md.tmp.9220.7da1dd516f57",
+    "docs/deuda-tecnica.md.tmp.9220.1e665136ffc0",
+    "docs/base-de-datos.md.tmp.9220.f39c80cdae61",
+    "docs/arquitectura.md.tmp.9220.4dd682bef1fa",
+    "paginas/admin-php.md",
+    "paginas/registr-php.md",
+    "paginas/ini-php.md",
+    "paginas/inbox-php.md",
+    "tareas/semana-2026-07-20/bloque-8-roles-permisos.md",
     "tareas/semana-2026-07-20/bloque-7-crud-tareas.md",
     "tareas/semana-2026-07-20/bloque-6-crud-usuarios-admin.md",
     "2026-07-20.md",
     "Sin título.canvas",
-    "tareas/semana-2026-07-20/bloque-8-roles-permisos.md",
-    "tareas/semana-2026-07-20",
     "tareas/bloque-2-estructura-reutilizable.md",
     "tareas/bloque-4-validacion-mensajes.md",
     "tareas/bloque-3-panel-session.md",
     "semanas/semana-2026-07-19.md",
-    "tareas/bloque-5-funcionalidades-futuras.md.tmp.16468.6a2a82bd1f7f",
-    "tareas/bloque-5-funcionalidades-futuras.md.tmp.16468.7fa4a930177a",
-    "tareas/bloque-5-funcionalidades-futuras.md.tmp.16468.302ae6697a1d",
-    "Inicio.md.tmp.16468.e265b8b6c733",
-    "Inicio.md.tmp.16468.b177be7a6356",
-    "Inicio.md.tmp.16468.f3c20e3a8c43",
-    "tareas/semana-2026-07-20/bloque-7-crud-tareas.md.tmp.16468.1b956927ea15",
-    "tareas/semana-2026-07-20/bloque-6-crud-usuarios-admin.md.tmp.16468.00d152573e5c",
-    "tareas/semana-2026-07-20/bloque-8-roles-permisos.md.tmp.16468.4d1fe08a52f3",
     "tareas/bloque-5-funcionalidades-futuras.md",
     "docs/base-de-datos.md",
     "docs/arquitectura.md",
-    "paginas/inbox-php.md",
     "tareas/bloque-1-sesion-seguridad.md",
-    "Inicio.md",
     "paginas/settings-php.md",
     "paginas/session-php.md",
     "docs/deuda-tecnica.md",
@@ -217,8 +222,6 @@
     "paginas/tasks-php.md",
     "README.md",
     "paginas/logout-php.md",
-    "paginas/registr-php.md",
-    "paginas/ini-php.md",
     "Bienvenido.md"
   ]
 }

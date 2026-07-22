@@ -9,64 +9,23 @@ tipo: privada
 
 ## Qué hace
 
-Home del panel interno. Página principal que ve el usuario tras iniciar sesión. Muestra bienvenida personalizada con el nombre del usuario y accesos directos a las secciones principales.
+Home del panel. Protegida por `auth_check.php`. Muestra el logo y "Bienvenido, {nombre}". Nada más por ahora — la navegación la da la sidebar (`includes/nav.php`), no la propia página.
 
 ## Estado
 
-✅ Funcional básico (2026-07-19). Auth protegida, bienvenida personalizada y nav operativo.
+Funcional básico. Falta contenido real — ver [[bloque-3-panel-session]]:
 
-### Tareas completadas
-
-**Bloque 1 — Seguridad**
-| Tarea | Estado |
-|-------|--------|
-| `require 'includes/auth_check.php'` al inicio | ✅ Hecho |
-| `$_SESSION['nombre']`, `$_SESSION['id_puesto']` disponibles | ✅ Hecho |
-
-**Bloque 3 — Contenido**
-| Tarea | Estado |
-|-------|--------|
-| Bienvenida personalizada "Hola, {nombre}" | ✅ Hecho |
-| Accesos directos a secciones (Tasks, Inbox, Settings) | ✅ Hecho |
-
-### Pendientes
-
-**Bloque 3 — Contenido**
-| Tarea | Estado |
-|-------|--------|
-| Tarjetas de resumen (tareas pendientes, mensajes sin leer, etc.) | ⬜ Pendiente (tarea 3.2) |
-| `OBTENER_PUESTO_DEPARTAMENTO` para mostrar dpto | ⬜ Pendiente (tarea 3.4) |
-
-**Bloque 4 — Mensajes visuales**
-| Tarea | Estado |
-|-------|--------|
-| Sistema de mensajes de error/éxito integrado | ⬜ Pendiente |
-
-## Flujo actual
-
-```
-Acceso sin sesión → auth_check.php → redirect ini.php
-Login exitoso en ini.php → redirect aquí → muestra panel personalizado
-```
+- Tarjetas de resumen (tareas pendientes, mensajes sin leer) — no existen aún
+- Mostrar puesto/departamento del usuario en la bienvenida — no existe aún, requiere un procedimiento con JOIN a `puesto`
 
 ## Archivos relacionados
 
-| Archivo | Rol |
-|---------|-----|
-| `includes/auth_check.php` | ✅ Protección de acceso activa |
-| `includes/nav.php` | Nav extraído (Bloque 2) |
-| `assets/css/session.css` | Estilos del panel (nav, layout) |
-
-## Notas técnicas
-
-- Las tarjetas de resumen pueden usar datos placeholder hasta que Tasks/Inbox tengan CRUD real.
-- `htmlspecialchars()` aplicado en la salida de datos de sesión.
+- `includes/auth_check.php` — protección de acceso
+- `includes/nav.php` — sidebar + footer (incluye el logout)
+- `assets/css/session.css` — estilos del panel
 
 ## Referencias
 
-- [[ini-php]] — origen (redirect tras login)
-- [[logout-php]] — enlazado desde el nav
-- [[tasks-php]] — [[inbox-php]] — [[settings-php]] — páginas del nav
-- [[bloque-1-sesion-seguridad]] — prerequisito crítico
-- [[bloque-2-estructura-reutilizable]] — prerequisito
-- [[bloque-3-panel-session]] — tareas de contenido
+- [[index]] — origen (redirect tras login/registro)
+- [[admin-php]] — [[tasks-php]] — [[inbox-php]] — [[settings-php]] — resto de páginas de la sidebar
+- [[bloque-3-panel-session]] — tareas de contenido pendientes
