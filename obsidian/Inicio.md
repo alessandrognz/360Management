@@ -4,64 +4,36 @@ tags: [inicio, indice]
 
 # 360Management — Vault de Documentación
 
-Documentación del proyecto en Obsidian. El código PHP vive en XAMPP (Apache).
+Documentación del proyecto. El código PHP vive en XAMPP (Apache + MySQL).
 
-## Navegación rápida
+## Estado de las páginas
 
-### Tareas por bloque
+- [[index]] — index.php (login + registro) — completa
+- [[session-php]] — session.php — funcional básico, faltan tarjetas de resumen
+- [[admin-php]] — admin.php — completa (listar y eliminar usuarios)
+- [[settings-php]] — settings.php — completa (nombre, contraseña, eliminar cuenta)
+- [[tasks-php]] — tasks.php — en desarrollo, sin CRUD
+- [[inbox-php]] — inbox.php — en desarrollo, sin funcionalidad
 
-| Bloque                                                                   | Prioridad | Estado             |
-| ------------------------------------------------------------------------ | --------- | ------------------ |
-| [[bloque-1-sesion-seguridad\|Bloque 1 — Sesión y Seguridad]]             | 🔴 Alta   | ✅ Completado       |
-| [[bloque-2-estructura-reutilizable\|Bloque 2 — Estructura Reutilizable]] | 🟡 Media  | 🔄 Casi (falta 2.2)|
-| [[bloque-3-panel-session\|Bloque 3 — Contenido del Panel]]               | 🟡 Media  | 🔄 Parcial (3.1+3.3)|
-| [[bloque-4-validacion-mensajes\|Bloque 4 — Validación y Mensajes]]       | 🟡 Media  | ⬜ Pendiente        |
-| [[bloque-5-funcionalidades-futuras\|Bloque 5 — Tasks, Inbox, Settings]]  | 🟢 Baja   | ⬜ Pendiente        |
+## Tareas pendientes
 
-#### Semana 20–26 jul — CRUD y Roles
+- [[bloque-3-panel-session]] — tarjetas de resumen y puesto/departamento en la bienvenida
+- [[bloque-4-validacion-mensajes]] — validación de formularios y mensajes visuales
+- [[bloque-5-funcionalidades-futuras]] — Tasks, Inbox y sistema de roles
 
-| Bloque                                                                        | Prioridad | Estado      |
-| ----------------------------------------------------------------------------- | --------- | ----------- |
-| [[bloque-8-roles-permisos\|Bloque 8 — Roles y Control de Acceso]]             | 🔴 Alta   | ⬜ Pendiente |
-| [[bloque-6-crud-usuarios-admin\|Bloque 6 — CRUD Gestión de Usuarios (Admin)]] | 🟡 Media  | ⬜ Pendiente |
-| [[bloque-7-crud-tareas\|Bloque 7 — CRUD de Tareas]]                           | 🟡 Media  | ⬜ Pendiente |
+Bloques 1 (Sesión y Seguridad), 2 (Estructura Reutilizable) y 6 (Administración de Usuarios) completados.
 
-### Páginas PHP
+## Documentación técnica
 
-| Página | Tipo | Estado |
-|--------|------|--------|
-| [[index\|index.html]] | Pública | ✅ Completa |
-| [[ini-php\|ini.php]] | Pública | ⚠️ Funcional con pendientes |
-| [[registr-php\|registr.php]] | Pública | ⚠️ Funcional con pendientes |
-| [[session-php\|session.php]] | Privada | ✅ Funcional básico |
-| [[logout-php\|logout.php]] | Privada | ✅ Completa |
-| [[tasks-php\|tasks.php]] | Privada | 🔲 Placeholder (sin CRUD) |
-| [[inbox-php\|inbox.php]] | Privada | 🔲 Placeholder (sin CRUD) |
-| [[settings-php\|settings.php]] | Privada | 🔲 Placeholder (sin CRUD) |
+- [[arquitectura]] — estructura, convenciones y flujos
+- [[base-de-datos]] — tablas y procedimientos almacenados
+- [[deuda-tecnica]] — riesgos y deuda técnica conocida
 
-### Documentación técnica
+## Diario semanal
 
-- [[arquitectura]] — Estructura, convenciones y flujos
-- [[base-de-datos]] — Tablas, procedimientos almacenados
-- [[deuda-tecnica]] — Riesgos y deuda técnica conocida
+- [[semana-2026-07-20]] — 20–22 jul: panel admin, ajustes completos, login/registro por modal
+- [[semana-2026-07-19]] — 14–19 jul: auth completa + rediseño UI
 
-### Páginas PHP por crear
+## Siguiente paso
 
-| Página | Bloque |
-|--------|--------|
-| `admin.php` | [[bloque-6-crud-usuarios-admin]] |
-
-### Diario semanal
-
-- [[semana-2026-07-19]] — Semana 14–19 jul: auth completa + rediseño UI
-
----
-
-> [!success] Semana 14–19 jul — hitos alcanzados
-> Bloque 1 cerrado ✅, rediseño UI completo, todas las páginas del panel creadas.
-
-> [!warning] Siguiente paso inmediato
-> **Bloque 2 tarea 2.2** — marcar link activo del nav dinámicamente. Luego continuar con **Bloque 3 tarea 3.2** (tarjetas de resumen) y **Bloque 4** (mensajes visuales).
-
-> [!info] Semana 20–26 jul — objetivos
-> **Bloque 8** (roles) → **Bloque 6** (admin usuarios) → **Bloque 7** (CRUD tareas). Ese orden respeta las dependencias entre bloques.
+Bloque 5.4 — sistema de roles (urgente: admin.php no comprueba rol, cualquier usuario autenticado puede entrar). Luego bloque 3.2 (tarjetas de resumen).
