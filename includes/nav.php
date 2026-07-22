@@ -2,7 +2,7 @@
 $layout_part = $layout_part ?? 'nav';
 $current_page = basename($_SERVER['PHP_SELF']);
 
-if ($layout_part === 'nav') :
+if ($layout_part === 'nav'):
 ?>
 <aside class="sidebar">
     <div class="sidebar-brand">
@@ -48,7 +48,7 @@ if ($layout_part === 'nav') :
         </a>
     </div>
 </aside>
-<?php elseif ($layout_part === 'footer') : ?>
+<?php elseif ($layout_part === 'footer'): ?>
 <footer class="footer-publico">
     <span>© 2026 360Management</span>
     <a href="#">Privacidad</a>

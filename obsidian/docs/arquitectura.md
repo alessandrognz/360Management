@@ -6,80 +6,67 @@ tags: [docs, arquitectura]
 
 ## Convenciones generales
 
-- **PHP procedural en español**: variables y funciones en castellano (`$Coneccion`, `INSERTAR_USUARIO`)
-- **Toda la lógica de datos en `includes/db.php`**: no hay SQL suelto en las páginas
-- **Procedimientos almacenados + consultas preparadas**: `mysqli->prepare()` + `bind_param()`
-- **Formulario y procesamiento en el mismo archivo**: `if ($_SERVER['REQUEST_METHOD'] === 'POST')` al principio
+- Nombres en español: variables y funciones en castellano (`$Coneccion`, `INSERTAR_USUARIO`)
+- La lógica de datos vive en clases dentro de `includes/db.php` (`loginAndRegister`, `CRUD_USER`, `TBL_TAREA`); cada método llama a un procedimiento almacenado vía `mysqli->prepare()` + `bind_param()`, sin SQL suelto en las páginas
+- Formulario y procesamiento en el mismo archivo: `if ($_SERVER['REQUEST_METHOD'] === 'POST')` al principio
+- Credenciales de BD en `includes/db_config.php`, fuera de git (`.gitignore`)
 
 ## Separación de páginas
 
 | Tipo | Páginas | Descripción |
 |------|---------|-------------|
-| Pública | `index.html`, `ini.php`, `registr.php` | Sin sesión requerida |
-| Privada | `session.php`, `tasks.php`, `inbox.php`, `settings.php` | Requieren `auth_check.php` |
-| Acción | `logout.php` | Solo lógica PHP, sin HTML |
+| Pública | `index.php` | Login y registro por modal, sin sesión requerida |
+| Privada | `session.php`, `admin.php`, `tasks.php`, `inbox.php`, `settings.php` | Requieren `includes/auth_check.php` |
+| Acción | `includes/logout.php`, `includes/delete_user.php` | Solo lógica PHP, sin HTML |
 
 ## Includes
 
 ```
 includes/
-├─ db.php              ✅ Conexión + funciones PHP
-├─ auth_check.php      ✅ Protección sesión → redirect ini.php
-├─ nav.php             ✅ Nav superior extraído (Bloque 2, 2026-07-19)
-├─ footer_publico.php  ✅ Footer páginas públicas (Bloque 2, 2026-07-19)
-└─ footer_privado.php  ✅ Footer páginas privadas (Bloque 2, 2026-07-19)
+├─ db.php              Conexión mysqli + clases loginAndRegister, CRUD_USER, TBL_TAREA
+├─ db_config.php       Credenciales locales (fuera de git)
+├─ auth_check.php      Protección de sesión → redirect index.php
+├─ nav.php             Sidebar + footer (controlado por $layout_part)
+├─ logout.php          Destruye la sesión → redirect index.php
+└─ delete_user.php     Borrado lógico de la cuenta propia → redirect index.php
 ```
 
 ## Assets
 
-Unificados bajo `assets/` (reordenado 2026-07-21, antes eran `css/`, `img/` e `Icons/` sueltas en la raíz):
-
 ```
 assets/
-├─ css/
-│  ├─ index.css    Estilos públicos: formularios de login/registro, layout flexbox
-│  └─ session.css  Estilos privados: nav, layout del panel
-├─ icons/          ~328 iconos SVG/PNG (Edit, Search, Settings, Info, logo, profile, etc.)
-└─ img/            Capturas y referencias de diseño (no usadas en código)
+├─ css/     index.css (landing + modales) y session.css (panel privado)
+├─ js/      index.js — apertura/cierre de los modales de login y registro
+├─ icons/   ~220 iconos SVG/PNG (nav, acciones, logo, perfil)
+├─ images/  background.png — usado en index.css
+└─ img/     capturas y referencias de diseño, no usadas en código
 ```
 
-No crear nuevos estilos base desde cero — extender los existentes manteniendo la paleta y el sistema de diseño.
+## Sistema de diseño
 
-## Sistema de diseño (actualizado 2026-07-19)
+Paleta primaria `#4a6741` (verde), fondo `#eef0ed`, tipografía de sistema. Layout flexbox. Login y registro en modales sobre `index.php` en vez de páginas separadas. Panel privado con sidebar (no nav superior).
 
-Rediseño completo realizado en la semana del 14–19 jul. La estética Aero/Vista fue sustituida por un diseño moderno y limpio.
+## Flujo de datos
 
-**Paleta de color:**
-- Primario: `#4a6741` (verde)
-- Fondo: `#eef0ed`
-- Tipografía: sistema (sin fuente personalizada)
-
-**Layout:** Flexbox en todas las páginas.
-
-**Iconos:** Biblioteca SVG/PNG añadida (~328 iconos: Edit, Search, Settings, Info, etc.) en `assets/icons/`. Se referencian como `<img src="assets/icons/...">` o inline SVG según contexto.
-
-**Componentes UI:**
-- Formularios rediseñados con mejor UX y validación visual
-- Nav con estados hover y tipografía limpia
-- Mensajes de error/éxito (pendiente — Bloque 4)
-
-> [!info] Estética anterior
-> El proyecto comenzó con estética Aero/Vista (Windows 7, librería 7.css, fondo cristal, Segoe UI). Fue descartada el 2026-07-19 en favor del diseño verde actual. Cualquier referencia a `.aero-window` o `fontVista/` en notas antiguas ya no aplica.
-
-## Flujo de datos (login)
-
+**Login** (`index.php?action=ini`)
 ```
-ini.php (POST)
-  └─ INICIAR_SESION($email) en db.php
-       └─ CALL INICIAR_SESION(_email) [procedimiento SQL]
-            └─ devuelve: id_usuario, nombre, email, contrasena, id_puesto
-  └─ password_verify($contrasena_input, $hash_bd)
-       └─ true  → $_SESSION = {email, id_usuario, nombre, id_puesto} → redirect session.php
-       └─ false → mensaje de error
+loginAndRegister::INICIAR_SESION($email, $contrasena)
+  └─ CALL VERIFICAR_EMAIL(email) + CALL VERIFICAR_CONTRASENA(email)
+       └─ password_verify($contrasena, $hash)
+            └─ true  → $_SESSION = {email, id_usuario, nombre, id_puesto} → redirect session.php
+            └─ false → sin redirect, sin mensaje visual
 ```
+
+**Registro** (`index.php?action=reg`)
+```
+loginAndRegister::INSERTAR_USUARIO($nombre, $email, $puesto, $contrasena)
+  └─ CALL INSERTAR_USUARIO(...)
+       └─ $_SESSION = {nombre, id_usuario, id_departamento, email} → redirect session.php
+```
+
+Nota: tras login la sesión guarda `id_puesto`; tras registro guarda `id_departamento`. No son el mismo dato — ver [[deuda-tecnica]].
 
 ## Referencias
 
-- [[base-de-datos]] — esquema de BD
-- [[bloque-1-sesion-seguridad]] — tareas que completan la arquitectura de auth
-- [[bloque-2-estructura-reutilizable]] — tareas que completan los includes
+- [[base-de-datos]] — esquema de BD y procedimientos
+- [[deuda-tecnica]] — inconsistencias y riesgos activos

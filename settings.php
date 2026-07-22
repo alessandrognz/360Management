@@ -1,44 +1,44 @@
 <?php
-    require 'includes/auth_check.php';
-    require 'includes/db.php';
+require 'includes/auth_check.php';
+require 'includes/db.php';
 
-    $crud_user = new CRUD_USER();
-    $mensaje = '';
-    $error = false;
-    $seccion_mensaje = '';
+$crud_user = new CRUD_USER();
+$mensaje = '';
+$error = false;
+$seccion_mensaje = '';
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['accion'] ?? '') === 'cambiar_nombre') {
-        $seccion_mensaje = 'perfil';
-        $nuevo_nombre = trim($_POST['nombre'] ?? '');
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['accion'] ?? '') === 'cambiar_nombre') {
+    $seccion_mensaje = 'perfil';
+    $nuevo_nombre = trim($_POST['nombre'] ?? '');
 
-        if ($nuevo_nombre === '') {
-            $error = true;
-            $mensaje = 'El nombre no puede estar vacío.';
-        } else {
-            $crud_user->CAMBIAR_NOMBRE_USUARIO((int) $_SESSION['id_usuario'], $nuevo_nombre);
-            $_SESSION['nombre'] = $nuevo_nombre;
-            $mensaje = 'Nombre actualizado correctamente.';
-        }
+    if ($nuevo_nombre === '') {
+        $error = true;
+        $mensaje = 'El nombre no puede estar vacío.';
+    } else {
+        $crud_user->CAMBIAR_NOMBRE_USUARIO((int) $_SESSION['id_usuario'], $nuevo_nombre);
+        $_SESSION['nombre'] = $nuevo_nombre;
+        $mensaje = 'Nombre actualizado correctamente.';
     }
+}
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['accion'] ?? '') === 'cambiar_contrasena') {
-        $seccion_mensaje = 'contrasena';
-        $contrasena_actual    = $_POST['contrasena_actual'] ?? '';
-        $new_contrasena       = $_POST['contrasena_nueva'] ?? '';
-        $contrasena_confirmar = $_POST['contrasena_confirmar'] ?? '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['accion'] ?? '') === 'cambiar_contrasena') {
+    $seccion_mensaje = 'contrasena';
+    $contrasena_actual = $_POST['contrasena_actual'] ?? '';
+    $new_contrasena = $_POST['contrasena_nueva'] ?? '';
+    $contrasena_confirmar = $_POST['contrasena_confirmar'] ?? '';
 
-        if ($new_contrasena !== $contrasena_confirmar) {
-            $error = true;
-            $mensaje = 'La nueva contraseña y su confirmación no coinciden.';
-        } elseif ($crud_user->CAMBIAR_CONTRASENA($contrasena_actual, $new_contrasena)) {
-            $mensaje = 'Contraseña actualizada correctamente.';
-        } else {
-            $error = true;
-            $mensaje = 'No se pudo cambiar: la contraseña actual no es correcta.';
-        }
+    if ($new_contrasena !== $contrasena_confirmar) {
+        $error = true;
+        $mensaje = 'La nueva contraseña y su confirmación no coinciden.';
+    } elseif ($crud_user->CAMBIAR_CONTRASENA($contrasena_actual, $new_contrasena)) {
+        $mensaje = 'Contraseña actualizada correctamente.';
+    } else {
+        $error = true;
+        $mensaje = 'No se pudo cambiar: la contraseña actual no es correcta.';
     }
+}
 
-    $usuario = $crud_user->MOSTRAR_USUARIO((int) $_SESSION['id_usuario']);
+$usuario = $crud_user->MOSTRAR_USUARIO((int) $_SESSION['id_usuario']);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -116,6 +116,7 @@
             <button type="submit" form="form-eliminar-usuario" class="btn btn-danger">Eliminar usuario</button>
         </div>
     </main>
-    <?php $layout_part = 'footer'; require 'includes/nav.php'; ?>
+    <?php $layout_part = 'footer';
+    require 'includes/nav.php'; ?>
 </body>
 </html>

@@ -1,44 +1,41 @@
 <?php
-  require 'includes/db.php';
+require 'includes/db.php';
 
-  if($_SERVER['REQUEST_METHOD']=== 'POST') {
-    $action = $_GET['action']??'';
-    echo '<script>console.log("Entrando en el post '.htmlspecialchars($action, ENT_QUOTES).'");</script>' ;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $action = $_GET['action'] ?? '';
+  echo '<script>console.log("Entrando en el post ' . htmlspecialchars($action, ENT_QUOTES) . '");</script>';
 
-    if ($action == 'ini'){
-      echo '<script>console.log("Entrando en ini");</script>'; 
+  if ($action == 'ini') {
+    echo '<script>console.log("Entrando en ini");</script>';
 
-      $email = $_POST['email'];
-      $contrasena = $_POST['contrasena'] ?? '';
-    
+    $email = $_POST['email'];
+    $contrasena = $_POST['contrasena'] ?? '';
+
+    $con = new loginAndRegister();
+    $con->INICIAR_SESION($email, $contrasena);
+  }
+
+  if ($action == 'reg') {
+    // Obtencion de variables del formulario
+    $nombre = $_POST['nombre'] ?? '';
+    $email = $_POST['email'] ?? '';
+    $puesto = $_POST['puesto'] ?? '';
+
+    $contrasena = $_POST['contrasena'] ?? '';
+    $contrasena2 = $_POST['contrasena2'] ?? '';
+
+    // Consulta
+    if ($contrasena === $contrasena2) {
+      $contrasena = password_hash($_POST['contrasena'] ?? '', PASSWORD_BCRYPT);
       $con = new loginAndRegister();
-      $con->INICIAR_SESION($email, $contrasena);
+
+      $con->INSERTAR_USUARIO($nombre, $email, $puesto, $contrasena);
+    } else {
+      $mensaje = 'Las contraseñas introducidas deben coincidir.';
+      echo "<script>alert('$mensaje');</script>";
     }
-
-    if ($action == 'reg'){
-			//Obtencion de variables del formulario
-      $nombre = $_POST['nombre']??'';
-      $email = $_POST['email']??'';
-      $puesto = $_POST['puesto']??'';
-
-      $contrasena = $_POST['contrasena'] ?? '';
-      $contrasena2 = $_POST['contrasena2']??'';      
-
-			//Consulta
-    if($contrasena === $contrasena2){
-        $contrasena = password_hash($_POST['contrasena']??'', PASSWORD_BCRYPT);
-        $con = new loginAndRegister();
-        
-			  $con->INSERTAR_USUARIO($nombre,$email,$puesto,$contrasena);
-
-        
-      }
-      else{
-        $mensaje = 'Las contraseñas introducidas deben coincidir.';
-        echo "<script>alert('$mensaje');</script>";      
-          }
-      }
-		}    
+  }
+}
 ?>
 <!doctype html>
 <html lang="es">
