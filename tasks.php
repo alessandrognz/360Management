@@ -12,8 +12,37 @@
     $tareas_generales = $crud->SELECT_TAREAS_GENERALES($_SESSION["id_puesto"]);
     $tareas_departamento = $crud->SELECT_TAREAS_PERSONALES($_SESSION["id_usuario"]);
 
-    $mensaje_tarea = '';
-    $error_tarea = false;
+    $mensaje_tarea = $_SESSION['tarea_mensaje'] ?? '';
+    $error_tarea = $_SESSION['tarea_error'] ?? false;
+    unset($_SESSION['tarea_mensaje'], $_SESSION['tarea_error']);
+
+    function badge_estado_class($estado) {
+        $e = mb_strtolower((string) $estado, 'UTF-8');
+        if (strpos($e, 'complet') !== false) return 'task-status--done';
+        if (strpos($e, 'vencid') !== false || strpos($e, 'atras') !== false) return 'task-status--overdue';
+        if (strpos($e, 'progreso') !== false || strpos($e, 'curso') !== false) return 'task-status--progress';
+        return 'task-status--pending';
+    }
+
+    function fecha_corta($fecha) {
+        if (!$fecha) return '—';
+        $ts = strtotime($fecha);
+        return $ts ? date('d/m/Y H:i', $ts) : htmlspecialchars($fecha);
+    }
+
+    $todas_tareas = array_merge($tareas_generales, $tareas_departamento);
+    $conteo_estados = ['task-status--pending' => 0, 'task-status--progress' => 0, 'task-status--done' => 0, 'task-status--overdue' => 0];
+    foreach ($todas_tareas as $tarea) {
+        $conteo_estados[badge_estado_class($tarea['descripcion_est_tarea'])]++;
+    }
+
+    $stat_tiles = [
+        ['label' => 'Total',        'value' => count($todas_tareas),                    'class' => ''],
+        ['label' => 'Pendientes',   'value' => $conteo_estados['task-status--pending'],  'class' => 'stat-tile--pending'],
+        ['label' => 'En progreso',  'value' => $conteo_estados['task-status--progress'], 'class' => 'stat-tile--progress'],
+        ['label' => 'Completadas',  'value' => $conteo_estados['task-status--done'],     'class' => 'stat-tile--done'],
+        ['label' => 'Vencidas',     'value' => $conteo_estados['task-status--overdue'],  'class' => 'stat-tile--overdue'],
+    ];
 
     //Metodos
     if($_SERVER["REQUEST_METHOD"] === "POST"){
@@ -88,6 +117,10 @@
                 }
             }
 
+            $_SESSION['tarea_mensaje'] = $mensaje_tarea;
+            $_SESSION['tarea_error'] = $error_tarea;
+            header('Location: tasks.php');
+            exit();
 
         }
 
@@ -113,216 +146,147 @@
     
     <?php require 'includes/nav.php'; ?>
     <main>
-        <div>
+        <div class="tasks-header">
             <h1 class="page-title">Tareas</h1>
+            <button type="button" class="btn btn-primary" id="btn-crear-tarea">+ Crear tarea</button>
         </div>
-        <div>
-            <h1>Tareas Generales</h1>
-            <table>
-                <th>Departamento</th>
-                <th>Titulo</th>
-                <th>Descripcion</th>
-                <th>Fecha creacion</th>
-                <th>Fecha limite</th>
-                <th>Estado</th>
-                <?php
-                foreach ($tareas_generales as $tarea) {
-                    ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($tarea["nombre_departamento"]);?></td>
-                        <td><?php echo htmlspecialchars($tarea["titulo"]);?></td>
-                        <td><?php echo htmlspecialchars($tarea["descripcion_tarea"]);?></td>
-                        <td><?php echo htmlspecialchars($tarea["fecha_creacion"]);?></td>
-                        <td><?php echo htmlspecialchars($tarea["fecha_limite"]);?></td>
-                        <td><?php echo htmlspecialchars($tarea["descripcion_est_tarea"]);?></td>
-                    </tr>
-                    <?php
-                }
-                ?>
-            </table>
 
+        <div class="tasks-stats">
+            <?php foreach ($stat_tiles as $tile): ?>
+                <div class="stat-tile <?php echo $tile['class']; ?>">
+                    <span class="stat-value"><?php echo $tile['value']; ?></span>
+                    <span class="stat-label"><?php echo $tile['label']; ?></span>
+                </div>
+            <?php endforeach; ?>
         </div>
-        <div>
-            <h1>Tareas Personales</h1>
-            <table>
-                <th>Titulo</th>
-                <th>Descripcion</th>
-                <th>Fecha creacion</th>
-                <th>Fecha limite</th>
-                <th>Estado</th>
-                <?php
-                    foreach ($tareas_departamento as $tarea) {
-                    ?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($tarea["titulo"]);?></td>
-                            <td><?php echo htmlspecialchars($tarea["descripcion_tarea"]);?></td>
-                            <td><?php echo htmlspecialchars($tarea["fecha_creacion"]);?></td>
-                            <td><?php echo htmlspecialchars($tarea["fecha_limite"]);?></td>
-                            <td><?php echo htmlspecialchars($tarea["descripcion_est_tarea"]);?></td>
-                        </tr>
-                    <?php
-                }
-                ?>
-            </table>
-        </div>
-        <div>
-            <h1>Crear tarea</h1>
-            <div>
-                <?php if ($mensaje_tarea !== ''): ?>
-                <p class="settings-message<?= $error_tarea ? ' settings-message--error' : ' settings-message--exito' ?>"><?= htmlspecialchars($mensaje_tarea) ?></p>
-                <?php endif; ?>
-                <form action="tasks.php?action=crear" method="POST">
-                    <label>Titulo</label>
-                    <input name="titulo" type="text">
-                    <br>
-                    <label>Descripcion</label>
-                    <input name="descipcion" type="text">
-                    <br>
-                    <label>fecha limite</label>
-                    <input name="fecha_limite" type="datetime-local" required min="<?php echo date('Y-m-d\TH:i'); ?>">
-                    <br>
-                    <label>Para:</label>
-                    <input type="radio" name="destino_tipo" id="tipo_persona" value="persona"> Persona
-                    <input type="radio" name="destino_tipo" id="tipo_departamento" value="departamento"> Departamento
-                    <br>
 
-                    <div id="person_block" style="display:none; margin-top:6px;">
-                        <label>Listado Personas</label>
-                        <select name="personal" id="personal">
-                            <?php if ($usuarios) {
-                                foreach ($usuarios as $usuario) {
-                                echo '<option value="'.htmlspecialchars($usuario['id_usuario']).'">'.htmlspecialchars($usuario['nombre']).'</option>';
-                            }}?>
-                        </select>
-                        <button type="button" id="add_person_btn">Añadir</button>
-                        <input type="hidden" id="_personas_a_enviar" name="personas_a_enviar" value="">
-                        <div id="personas_list_display" style="margin-top:8px;"></div>
-                    </div>
-
-                    <div id="dept_block" style="display:none; margin-top:6px;">
-                        <label>Listado Departamento</label>
-                        <select name="departamento" id="departamento">
-                            <?php if ($departamentos) {
-                                foreach ($departamentos as $departamento) {
-                                echo '<option value="'.htmlspecialchars($departamento['id_departamento']).'">'.htmlspecialchars($departamento['nombre_departamento']).'</option>';
-                            }}?>
-                        </select>
-                        <button type="button" id="add_dept_btn">Añadir</button>
-                        <input type="hidden" id="_departamentos_a_enviar" name="departamentos_a_enviar" value="">
-                        <div id="departamentos_list_display" style="margin-top:8px;"></div>
-                    </div>
-                    <br>
-                    <input type="submit" value="Crear tarea +" class="add">
-                </form>
+        <section class="task-section">
+            <div class="task-section-header task-section-header--tabs">
+                <div class="task-tabs" role="tablist">
+                    <button type="button" class="task-tab is-active" data-tab="generales" role="tab" aria-selected="true">
+                        Tareas generales <span class="task-count"><?php echo count($tareas_generales); ?></span>
+                    </button>
+                    <button type="button" class="task-tab" data-tab="personales" role="tab" aria-selected="false">
+                        Tareas personales <span class="task-count"><?php echo count($tareas_departamento); ?></span>
+                    </button>
+                </div>
             </div>
-        </div>
 
+            <div class="task-list" data-tab-panel="generales">
+                <?php if (!$tareas_generales): ?>
+                    <p class="task-empty">No hay tareas generales asignadas a tu puesto.</p>
+                <?php else: foreach ($tareas_generales as $tarea): ?>
+                    <div class="task-row">
+                        <div class="task-main">
+                            <span class="task-title"><?php echo htmlspecialchars($tarea["titulo"]); ?></span>
+                            <span class="task-desc"><?php echo htmlspecialchars($tarea["descripcion_tarea"]); ?></span>
+                        </div>
+                        <span class="task-tag"><?php echo htmlspecialchars($tarea["nombre_departamento"]); ?></span>
+                        <div class="task-dates">
+                            <span><strong>Límite:</strong> <?php echo fecha_corta($tarea["fecha_limite"]); ?></span>
+                            <span><?php echo fecha_corta($tarea["fecha_creacion"]); ?></span>
+                        </div>
+                        <span class="task-status <?php echo badge_estado_class($tarea["descripcion_est_tarea"]); ?>">
+                            <?php echo htmlspecialchars($tarea["descripcion_est_tarea"]); ?>
+                        </span>
+                    </div>
+                <?php endforeach; endif; ?>
+            </div>
+
+            <div class="task-list" data-tab-panel="personales" hidden>
+                <?php if (!$tareas_departamento): ?>
+                    <p class="task-empty">No tienes tareas personales asignadas.</p>
+                <?php else: foreach ($tareas_departamento as $tarea): ?>
+                    <div class="task-row">
+                        <div class="task-main">
+                            <span class="task-title"><?php echo htmlspecialchars($tarea["titulo"]); ?></span>
+                            <span class="task-desc"><?php echo htmlspecialchars($tarea["descripcion_tarea"]); ?></span>
+                        </div>
+                        <div class="task-dates">
+                            <span><strong>Límite:</strong> <?php echo fecha_corta($tarea["fecha_limite"]); ?></span>
+                            <span><?php echo fecha_corta($tarea["fecha_creacion"]); ?></span>
+                        </div>
+                        <span class="task-status <?php echo badge_estado_class($tarea["descripcion_est_tarea"]); ?>">
+                            <?php echo htmlspecialchars($tarea["descripcion_est_tarea"]); ?>
+                        </span>
+                    </div>
+                <?php endforeach; endif; ?>
+            </div>
+        </section>
     </main>
+
+    <div class="modal-overlay<?= $mensaje_tarea !== '' ? ' active' : '' ?>" id="modal-crear-tarea">
+        <div class="modal-container">
+            <button type="button" class="modal-close" data-modal="modal-crear-tarea">&times;</button>
+            <h2>Crear tarea</h2>
+
+            <?php if ($mensaje_tarea !== ''): ?>
+            <p class="settings-message<?= $error_tarea ? ' settings-message--error' : ' settings-message--exito' ?>"><?= htmlspecialchars($mensaje_tarea) ?></p>
+            <?php endif; ?>
+
+            <form class="task-form" action="tasks.php?action=crear" method="POST">
+                <div class="task-form-grid">
+                    <div class="form-field">
+                        <label class="form-label">Título</label>
+                        <input class="form-input" name="titulo" type="text" required>
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label">Fecha límite</label>
+                        <input class="form-input" name="fecha_limite" type="datetime-local" required min="<?php echo date('Y-m-d\TH:i'); ?>">
+                    </div>
+                </div>
+
+                <div class="form-field">
+                    <label class="form-label">Descripción</label>
+                    <textarea class="form-input" name="descipcion" rows="2"></textarea>
+                </div>
+
+                <div class="form-field">
+                    <label class="form-label">Destinatario</label>
+                    <div class="segmented">
+                        <label class="segmented-option">
+                            <input type="radio" name="destino_tipo" id="tipo_persona" value="persona" required>
+                            <span>Persona</span>
+                        </label>
+                        <label class="segmented-option">
+                            <input type="radio" name="destino_tipo" id="tipo_departamento" value="departamento" required>
+                            <span>Departamento</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div id="person_block" class="task-target-block" hidden>
+                    <label class="form-label">Listado personas</label>
+                    <select name="personal" id="personal">
+                        <option value="" selected disabled>Selecciona una persona</option>
+                        <?php if ($usuarios) {
+                            foreach ($usuarios as $usuario) {
+                            echo '<option value="'.htmlspecialchars($usuario['id_usuario']).'">'.htmlspecialchars($usuario['nombre']).'</option>';
+                        }}?>
+                    </select>
+                    <input type="hidden" id="_personas_a_enviar" name="personas_a_enviar" value="">
+                    <div id="personas_list_display"></div>
+                </div>
+
+                <div id="dept_block" class="task-target-block" hidden>
+                    <label class="form-label">Listado departamento</label>
+                    <select name="departamento" id="departamento">
+                        <option value="" selected disabled>Selecciona un departamento</option>
+                        <?php if ($departamentos) {
+                            foreach ($departamentos as $departamento) {
+                            echo '<option value="'.htmlspecialchars($departamento['id_departamento']).'">'.htmlspecialchars($departamento['nombre_departamento']).'</option>';
+                        }}?>
+                    </select>
+                    <input type="hidden" id="_departamentos_a_enviar" name="departamentos_a_enviar" value="">
+                    <div id="departamentos_list_display"></div>
+                </div>
+
+                <input type="submit" value="Crear tarea +" class="add">
+            </form>
+        </div>
+    </div>
+
     <?php $layout_part = 'footer'; require 'includes/nav.php'; ?>
-    <script>
-        (function(){
-            function escapeHtml(str){ return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-            // Generic renderer for list with remove buttons
-            function renderList(ids, names, hidden, display){
-                hidden.value = ids.join(',');
-                if (!names.length){ display.innerHTML = ''; return; }
-                var parts = names.map(function(name, i){
-                    return '<span class="selected-item" data-index="'+i+'" style="display:inline-block;padding:4px 8px;margin:3px;border:1px solid #ccc;border-radius:4px;">'+escapeHtml(name)+' <button type="button" class="remove-item" data-index="'+i+'" style="margin-left:6px;">x</button></span>';
-                });
-                display.innerHTML = '<strong>Seleccionados:</strong> ' + parts.join(' ');
-            }
-
-            // Users
-            var addPersonBtn = document.getElementById('add_person_btn');
-            var personSelect = document.getElementById('personal');
-            var personHidden = document.getElementById('_personas_a_enviar');
-            var personDisplay = document.getElementById('personas_list_display');
-            var personIds = [], personNames = [];
-            var personBlock = document.getElementById('person_block');
-            var deptBlock = document.getElementById('dept_block');
-            var tipoPerson = document.getElementById('tipo_persona');
-            var tipoDept = document.getElementById('tipo_departamento');
-
-            if (addPersonBtn && personSelect && personHidden){
-                addPersonBtn.addEventListener('click', function(){
-                    var val = personSelect.value;
-                    var txt = personSelect.options[personSelect.selectedIndex].text;
-                    if (!val) return;
-                    if (personIds.indexOf(val) === -1){ personIds.push(val); personNames.push(txt); renderList(personIds, personNames, personHidden, personDisplay); }
-                });
-            }
-
-            if (personDisplay){
-                personDisplay.addEventListener('click', function(e){
-                    var t = e.target;
-                    if (t && t.classList.contains('remove-item')){
-                        var idx = parseInt(t.getAttribute('data-index'), 10);
-                        if (!isNaN(idx)){
-                            personIds.splice(idx,1);
-                            personNames.splice(idx,1);
-                            renderList(personIds, personNames, personHidden, personDisplay);
-                        }
-                    }
-                });
-            }
-
-            // radio toggle logic to ensure only one type is active
-            function clearDept(){ if (deptIds.length){ deptIds.length = 0; deptNames.length = 0; renderList(deptIds, deptNames, deptHidden, deptDisplay); } }
-            function clearPerson(){ if (personIds.length){ personIds.length = 0; personNames.length = 0; renderList(personIds, personNames, personHidden, personDisplay); } }
-
-            function setMode(mode){
-                if (mode === 'persona'){
-                    if (personBlock) personBlock.style.display = '';
-                    if (deptBlock) deptBlock.style.display = 'none';
-                    clearDept();
-                } else if (mode === 'departamento'){
-                    if (deptBlock) deptBlock.style.display = '';
-                    if (personBlock) personBlock.style.display = 'none';
-                    clearPerson();
-                } else {
-                    if (personBlock) personBlock.style.display = 'none';
-                    if (deptBlock) deptBlock.style.display = 'none';
-                }
-            }
-
-            // attach radio events
-            var radios = document.querySelectorAll('input[name="destino_tipo"]');
-            radios.forEach(function(r){ r.addEventListener('change', function(){ if (this.checked) setMode(this.value); }); });
-
-            // initialize hidden by default
-            setMode(null);
-
-            // Departments (same behavior)
-            var addDeptBtn = document.getElementById('add_dept_btn');
-            var deptSelect = document.getElementById('departamento');
-            var deptHidden = document.getElementById('_departamentos_a_enviar');
-            var deptDisplay = document.getElementById('departamentos_list_display');
-            var deptIds = [], deptNames = [];
-
-            if (addDeptBtn && deptSelect && deptHidden){
-                addDeptBtn.addEventListener('click', function(){
-                    var val = deptSelect.value;
-                    var txt = deptSelect.options[deptSelect.selectedIndex].text;
-                    if (!val) return;
-                    if (deptIds.indexOf(val) === -1){ deptIds.push(val); deptNames.push(txt); renderList(deptIds, deptNames, deptHidden, deptDisplay); }
-                });
-            }
-
-            if (deptDisplay){
-                deptDisplay.addEventListener('click', function(e){
-                    var t = e.target;
-                    if (t && t.classList.contains('remove-item')){
-                        var idx = parseInt(t.getAttribute('data-index'), 10);
-                        if (!isNaN(idx)){
-                            deptIds.splice(idx,1);
-                            deptNames.splice(idx,1);
-                            renderList(deptIds, deptNames, deptHidden, deptDisplay);
-                        }
-                    }
-                });
-            }
-        })();
-    </script>
+    <script src="assets/js/tasks.js"></script>
 </body>
 </html>

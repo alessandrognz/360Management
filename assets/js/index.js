@@ -2,6 +2,10 @@ document.addEventListener('DOMContentLoaded', function () {
   const modalLogin = document.getElementById('modal-login');
   const modalRegistro = document.getElementById('modal-registro');
 
+  if (document.body.dataset.alert) {
+    alert(document.body.dataset.alert);
+  }
+
   function openModal(modal) {
     modal.classList.add('active');
   }

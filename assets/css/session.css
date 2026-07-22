@@ -18,6 +18,12 @@ body {
   min-height: 100vh;
   padding-left: 240px;
   color: #374151;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
 }
 
 /* ——— Barra lateral ——— */
@@ -184,12 +190,16 @@ main {
   height: auto;
   display: block;
 }
-
+.tareas{
+  text-align: center;
+  margin-bottom: 25px;
+}
 .bienvenida {
   font-size: 2rem;
   font-weight: 700;
   color: #111827;
   line-height: 1.2;
+  margin-bottom: 25px;
 }
 
 /* ——— Títulos de página interior ——— */
@@ -573,152 +583,505 @@ main {
    Tareas (tasks.php)
    ============================================================ */
 
-main > div {
-  margin-bottom: 28px;
+main > div,
+main > section {
+  margin-bottom: 20px;
 }
 
-main > div:last-child {
+main > div:last-child,
+main > section:last-child {
   margin-bottom: 0;
 }
 
-main > div > h1:not(.page-title) {
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: #111827;
-  margin-bottom: 16px;
+.tasks-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid #e2e8df;
+  padding-bottom: 20px;
+  margin-bottom: 32px;
 }
 
-/* Tarjetas de sección: tablas de tareas + formulario de creación */
-main > div:nth-of-type(2),
-main > div:nth-of-type(3),
-main > div:nth-of-type(4) {
+.tasks-header .page-title {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+/* ——— Modal "Crear tarea" ——— */
+
+.modal-overlay {
+  display: flex;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.22s ease, visibility 0.22s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.modal-container {
+  position: relative;
+  width: 100%;
+  max-width: 620px;
+  max-height: calc(100vh - 64px);
+  overflow-y: auto;
+  margin: 32px;
+  padding: 40px 44px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 32px rgba(74, 103, 65, 0.1), 0 1px 4px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e2e8df;
+  transform: scale(0.94) translateY(16px);
+  opacity: 0;
+  transition: transform 0.3s cubic-bezier(0.34, 1.4, 0.64, 1), opacity 0.22s ease;
+}
+
+.modal-overlay.active .modal-container {
+  transform: none;
+  opacity: 1;
+}
+
+.modal-container h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 20px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  color: #9ca3af;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px 8px;
+  border-radius: 4px;
+  width: auto;
+}
+
+.modal-close:hover {
+  color: #374151;
+  background-color: #f3f4f6;
+}
+
+.task-section {
   background-color: #ffffff;
   border: 1px solid #e2e8df;
   border-radius: 12px;
-  padding: 22px 24px;
+  padding: 18px 20px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
 }
 
-main > div:nth-of-type(2),
-main > div:nth-of-type(3) {
-  overflow-x: auto;
+.task-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
 }
 
-/* ——— Tablas de tareas ——— */
-
-main table {
-  width: 100%;
-  min-width: 640px;
-  border-collapse: collapse;
+.task-section-header h2 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #111827;
 }
 
-main table th {
-  text-align: left;
+.task-count {
   font-size: 0.72rem;
   font-weight: 700;
+  color: #4a6741;
+  background-color: #eef2ec;
+  padding: 2px 9px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+/* ——— Resumen de estados ——— */
+
+.tasks-stats {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 760px) {
+  .tasks-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.stat-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background-color: #ffffff;
+  border: 1px solid #e2e8df;
+  border-radius: 12px;
+  padding: 14px 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.stat-value {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #111827;
+  line-height: 1.1;
+}
+
+.stat-label {
+  font-size: 0.72rem;
+  font-weight: 600;
   color: #6b7280;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: 10px 14px;
-  border-bottom: 2px solid #e2e8df;
-  white-space: nowrap;
+  letter-spacing: 0.04em;
 }
 
-main table td {
-  padding: 13px 14px;
-  font-size: 0.85rem;
+.stat-tile--pending .stat-value { color: #92600a; }
+.stat-tile--progress .stat-value { color: #1d4ed8; }
+.stat-tile--done .stat-value { color: #166534; }
+.stat-tile--overdue .stat-value { color: #991b1b; }
+
+/* ——— Pestañas Generales / Personales ——— */
+
+.task-tabs {
+  display: flex;
+  gap: 20px;
+}
+
+.task-tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 2px 12px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #9ca3af;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.task-tab:hover {
   color: #374151;
-  border-bottom: 1px solid #e2e8df;
-  white-space: nowrap;
-  transition: background-color 0.15s ease;
 }
 
-main table tr:last-of-type td {
-  border-bottom: none;
+.task-tab.is-active {
+  color: #111827;
+  border-bottom-color: #4a6741;
 }
 
-main table tr:nth-child(even) td {
-  background-color: #f8f9f7;
-}
-
-main table tr:hover td {
-  background-color: #eef0ec;
-}
-
-main table td:last-child {
-  font-size: 0.75rem;
-  font-weight: 700;
+.task-tab.is-active .task-count {
   color: #4a6741;
+}
+
+.task-section-header--tabs {
+  margin-bottom: 0;
+  border-bottom: 1px solid #e2e8df;
+}
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  margin-top: 4px;
+}
+
+.task-list[hidden] {
+  display: none;
+}
+
+.task-empty {
+  padding: 22px 4px 6px;
+  font-size: 0.82rem;
+  color: #9ca3af;
+  text-align: center;
+}
+
+/* ——— Tarjetas widget (p. ej. "Mis tareas" en session.php) ——— */
+
+.task-widget-section {
+  margin-bottom: 20px;
+}
+
+.task-widget-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 4px;
+}
+
+.task-widget-list .task-empty {
+  width: 100%;
+  padding: 18px 4px;
+}
+
+.task-widget-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: fit-content;
+  min-width: 240px;
+  max-width: 420px;
+  background-color: #ffffff;
+  border: 1px solid #e2e8df;
+  border-radius: 12px;
+  padding: 16px 18px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  transition: box-shadow 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+}
+
+.task-widget-card:hover {
+  border-color: #d3dccf;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.task-widget-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.task-widget-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #111827;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.task-widget-desc {
+  font-size: 0.82rem;
+  color: #6b7280;
+  line-height: 1.4;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.task-widget-footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid #e2e8df;
+}
+
+.task-widget-dates {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.72rem;
+  color: #9ca3af;
+}
+
+.task-widget-dates strong {
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.task-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 2px;
+  border-bottom: 1px solid #e2e8df;
+}
+
+.task-row:last-child {
+  border-bottom: none;
+  padding-bottom: 2px;
+}
+
+.task-row:first-child {
+  padding-top: 12px;
+}
+
+.task-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.task-title {
+  font-size: 0.87rem;
+  font-weight: 600;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.task-desc {
+  font-size: 0.78rem;
+  color: #6b7280;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.task-tag {
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #4a6741;
+  background-color: #eef2ec;
+  padding: 3px 9px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.task-dates {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  font-size: 0.72rem;
+  color: #9ca3af;
+  white-space: nowrap;
+}
+
+.task-dates strong {
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.task-status {
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.task-status--pending {
+  color: #92600a;
+  background-color: #fdf3e0;
+}
+
+.task-status--progress {
+  color: #1d4ed8;
+  background-color: #e7edfd;
+}
+
+.task-status--done {
+  color: #166534;
+  background-color: #eef2ec;
+}
+
+.task-status--overdue {
+  color: #991b1b;
+  background-color: #fdecec;
 }
 
 /* ——— Formulario "Crear tarea" ——— */
 
-form[action="tasks.php?action=crear"] {
-  max-width: 460px;
+.task-form {
+  max-width: 640px;
 }
 
-form[action="tasks.php?action=crear"] br {
-  display: none;
+.task-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 16px;
 }
 
-form[action="tasks.php?action=crear"] label {
-  display: block;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #374151;
-  margin-bottom: 6px;
+@media (max-width: 560px) {
+  .task-form-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
-form[action="tasks.php?action=crear"] input[type="text"],
-form[action="tasks.php?action=crear"] input[type="datetime-local"] {
-  display: block;
-  width: 100%;
-  max-width: 420px;
-  padding: 10px 14px;
-  margin-bottom: 18px;
+.task-form .form-field {
+  margin-bottom: 4px;
+}
+
+.task-form textarea.form-input {
+  resize: vertical;
+  min-height: 56px;
+  font-family: inherit;
+}
+
+/* Selector segmentado (persona / departamento) */
+
+.segmented {
+  display: inline-flex;
   border: 1.5px solid #d1d5db;
   border-radius: 8px;
-  font-family: inherit;
-  font-size: 0.9rem;
-  color: #374151;
-  background-color: #ffffff;
-  outline: none;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  overflow: hidden;
+  margin-bottom: 14px;
 }
 
-form[action="tasks.php?action=crear"] input[type="text"]:focus,
-form[action="tasks.php?action=crear"] input[type="datetime-local"]:focus {
-  border-color: #4a6741;
-  box-shadow: 0 0 0 3px rgba(74, 103, 65, 0.12);
+.segmented-option {
+  position: relative;
 }
 
-form[action="tasks.php?action=crear"] input[type="radio"] {
-  width: 15px;
-  height: 15px;
-  margin-right: 6px;
-  margin-left: 4px;
-  accent-color: #4a6741;
+.segmented-option:not(:last-child) {
+  border-right: 1.5px solid #d1d5db;
+}
+
+.segmented-option input {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
   cursor: pointer;
-  vertical-align: middle;
 }
 
-form[action="tasks.php?action=crear"] input[type="radio"]:first-of-type {
-  margin-left: 0;
+.segmented-option span {
+  display: block;
+  padding: 8px 18px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-form[action="tasks.php?action=crear"] .add {
-  margin-top: 10px;
+.segmented-option input:checked + span {
+  background-color: #4a6741;
+  color: #ffffff;
+}
+
+.segmented-option input:focus-visible + span {
+  outline: 2px solid #4a6741;
+  outline-offset: -2px;
 }
 
 /* Bloques dinámicos de selección (persona / departamento) */
 
-#person_block,
-#dept_block {
+.task-target-block {
   background-color: #f7f8f6;
   border: 1px solid #e2e8df;
   border-radius: 10px;
   padding: 16px;
-  margin-top: 4px !important;
   margin-bottom: 18px;
 }
 
@@ -748,35 +1111,13 @@ form[action="tasks.php?action=crear"] .add {
   border-color: #4a6741;
 }
 
-#add_person_btn,
-#add_dept_btn {
-  padding: 9px 18px;
-  margin-left: 8px;
-  background-color: #ffffff;
-  color: #4a6741;
-  border: 1.5px solid #4a6741;
-  border-radius: 8px;
-  font-family: inherit;
-  font-size: 0.82rem;
-  font-weight: 600;
-  cursor: pointer;
-  vertical-align: middle;
-  transition: background-color 0.15s ease, color 0.15s ease;
-}
-
-#add_person_btn:hover,
-#add_dept_btn:hover {
-  background-color: #4a6741;
-  color: #ffffff;
-}
-
 #personas_list_display,
 #departamentos_list_display {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
-  margin-top: 12px !important;
+  margin-top: 12px;
 }
 
 #personas_list_display strong,
@@ -787,25 +1128,22 @@ form[action="tasks.php?action=crear"] .add {
   margin-right: 2px;
 }
 
-/* Chips generados por JS (.selected-item / .remove-item llevan estilos
-   inline en el markup generado; se sobrescriben con !important) */
+/* Chips generados por JS */
 
 .selected-item {
-  display: inline-flex !important;
+  display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 5px 10px !important;
-  margin: 0 !important;
-  background-color: #eef2ec !important;
-  border: 1px solid #bfe0c8 !important;
-  border-radius: 999px !important;
+  padding: 5px 10px;
+  background-color: #eef2ec;
+  border: 1px solid #bfe0c8;
+  border-radius: 999px;
   font-size: 0.8rem;
   font-weight: 500;
   color: #166534;
 }
 
 .selected-item .remove-item {
-  margin-left: 0 !important;
   padding: 1px 6px;
   border: none;
   border-radius: 50%;
