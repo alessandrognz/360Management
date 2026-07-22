@@ -80,22 +80,6 @@
         }
     }
    
-    
-    
-    function ELIMINAR_USUARIO($nombre = ''){
-        global $Coneccion;
-
-        if ($nombre === '') {$nombre = $_SESSION['nombre'] ?? '';}
-
-        $comando = $Coneccion->prepare("CALL ELIMINAR_USUARIO(?);");
-        $comando->bind_param("s", $nombre);
-        $comando->execute();
-        $comando->close();
-
-        session_destroy();
-        header("Location: index.html");
-        exit();
-    }
     class CRUD_TAREAS{
         function INSERTAR_TAREA(int $_id_usuario_creador, string $_titulo, string $_descripcion_tarea, $_fecha_limite , int $_es_general, $_listado_enviar){
             global $Coneccion;
@@ -186,49 +170,5 @@
             return $departamentos;
         }
     }
-
-    function MOSTRAR_USUARIO($id_usuario = 0) {
-        global $Coneccion;
-
-        $comando = $Coneccion->prepare("CALL MOSTRAR_USUARIO(?);");
-        $comando->bind_param("i", $id_usuario);
-        $comando->execute();
-
-        $result  = $comando->get_result();
-        $usuario = $result->fetch_assoc();
-        $result->free();
-        $comando->close();
-
-        return $usuario;
-    }
-    function MOSTRAR_USUARIOS() {
-        global $Coneccion;
-
-        $comando = $Coneccion->prepare("CALL MOSTRAR_USUARIOS();");
-        $comando->execute();
-
-        $result   = $comando->get_result();
-        $usuarios = $result->fetch_all(MYSQLI_ASSOC);
-        $result->free();
-        $comando->close();
-
-        return $usuarios;
-    }
-    function ELIMINAR_USUARIO_LOGICO($id_usuario = 0) {
-        global $Coneccion;
-
-        $comando = $Coneccion->prepare("CALL ELIMINAR_USUARIO_LOGICO(?);");
-        $comando->bind_param("i", $id_usuario);
-        $comando->execute();
-        $comando->close();
-    }
-    function CAMBIAR_NOMBRE_USUARIO($id_usuario = 0, $new_nombre = '') {
-        global $Coneccion;
-
-        $comando = $Coneccion->prepare('CALL CAMBIAR_NOMBRE_USUARIO(?,?);');
-        $comando->bind_param("is", $id_usuario, $new_nombre);
-        $comando->execute();
-
-        $comando->close();
-    }
+    
 ?>
