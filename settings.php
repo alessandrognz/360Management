@@ -1,8 +1,9 @@
 <?php
 require 'includes/auth_check.php';
+require 'includes/procedures/tbl_usuarios.php';
 require 'includes/db.php';
 
-$crud_user = new CRUD_USER();
+$crud_user = new usuario();
 $mensaje = '';
 $error = false;
 $seccion_mensaje = '';

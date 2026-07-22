@@ -1,6 +1,6 @@
 <?php
 class usuario{
-
+    
     function ELIMINAR_USUARIO($nombre = ''){
         global $Coneccion;
 
