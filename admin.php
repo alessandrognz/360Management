@@ -30,7 +30,7 @@
     <?php require 'includes/nav.php'; ?>
     <main>
         <h1 class="page-title">Panel de control</h1>
-
+        <h2>Usuarios:</h2><br>
     <div class="user-list">
         <?php if ($usuarios): ?>
         <?php foreach ($usuarios as $usuario): ?>

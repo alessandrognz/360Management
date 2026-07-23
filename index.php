@@ -1,13 +1,12 @@
 <?php
 require 'includes/db.php';
 
+$js_alert_message = '';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $action = $_GET['action'] ?? '';
-  echo '<script>console.log("Entrando en el post ' . htmlspecialchars($action, ENT_QUOTES) . '");</script>';
 
   if ($action == 'ini') {
-    echo '<script>console.log("Entrando en ini");</script>';
-
     $email = $_POST['email'];
     $contrasena = $_POST['contrasena'] ?? '';
 
@@ -31,8 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       $con->INSERTAR_USUARIO($nombre, $email, $puesto, $contrasena);
     } else {
-      $mensaje = 'Las contraseñas introducidas deben coincidir.';
-      echo "<script>alert('$mensaje');</script>";
+      $js_alert_message = 'Las contraseñas introducidas deben coincidir.';
     }
   }
 }
@@ -46,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="assets/css/index.css">
     <title>360Management</title>
   </head>
-  <body>
+  <body<?php if ($js_alert_message !== '') echo ' data-alert="' . htmlspecialchars($js_alert_message, ENT_QUOTES) . '"'; ?>>
     <div class="landing">
       <div class="logo"><img src="assets/icons/logo+360Management.png" alt="360Management"></div>
       <div class="buttons">
