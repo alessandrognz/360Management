@@ -29,9 +29,7 @@ class CRUD_TAREAS{
                 $comando->close();
 
             }
-
         }
-        
 
     }
     function SELECT_TAREAS_GENERALES(int $_id_puesto){
@@ -74,6 +72,20 @@ class CRUD_TAREAS{
         $comando->close();
 
         return $usuarios;
+    }
+    function SELECT_MIS_TAREAS(int $_id_usuario) {
+        global $Coneccion;
+
+        $comando = $Coneccion->prepare("CALL SELECT_MIS_TAREAS(?);");
+        $comando->bind_param("i", $_id_usuario);
+        $comando->execute();
+
+        $result = $comando->get_result();
+        $tareas = $result->fetch_all(MYSQLI_ASSOC);
+        $result->free();
+        $comando->close();
+
+        return $tareas;
     }
     function LISTAR_DEPARTAMENTOS(){
         global $Coneccion;

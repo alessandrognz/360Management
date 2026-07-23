@@ -60,6 +60,16 @@ class CRUD_USER
         $comando->close();
     }
 
+    function ACTIVAR_USUARIO(int $id_usuario)
+    {
+        global $Coneccion;
+
+        $comando = $Coneccion->prepare('CALL ACTIVAR_USUARIO(?);');
+        $comando->bind_param('i', $id_usuario);
+        $comando->execute();
+        $comando->close();
+    }
+
     function CAMBIAR_NOMBRE_USUARIO($id_usuario = 0, $new_nombre = '')
     {
         global $Coneccion;
@@ -68,6 +78,32 @@ class CRUD_USER
         $comando->bind_param('is', $id_usuario, $new_nombre);
         $comando->execute();
 
+        $comando->close();
+    }
+    // CAMBIO: la función no recibía parámetros, por lo que $id_usuario y
+    // $new_email estaban indefinidos al hacer bind_param. Ahora se reciben
+    // igual que en CAMBIAR_NOMBRE_USUARIO.
+    function CAMBIAR_EMAIL($id_usuario = 0, $new_email = '')
+    {
+        global $Coneccion;
+
+        $comando = $Coneccion->prepare('CALL CAMBIAR_EMAIL(?,?);');
+        $comando->bind_param('is', $id_usuario, $new_email);
+        $comando->execute();
+
+        $comando->close();
+    }
+
+    // Permite al admin cambiar la contraseña de cualquier usuario sin verificar la actual.
+    // CAMBIAR_CONTRASENA normal exige verificar la contraseña vieja del propio usuario de sesión;
+    // aquí el admin ya tiene autoridad, así que se llama al SP directamente.
+    function CAMBIAR_CONTRASENA_FORZADA(int $id_usuario, string $hash)
+    {
+        global $Coneccion;
+
+        $comando = $Coneccion->prepare('CALL CAMBIAR_CONTRASENA(?,?);');
+        $comando->bind_param('is', $id_usuario, $hash);
+        $comando->execute();
         $comando->close();
     }
 

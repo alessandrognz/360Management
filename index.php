@@ -136,6 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p class="switch-link">¿Ya tienes cuenta? <a href="#" id="switch-login">Iniciar Sesión</a></p>
       </div>
     </div>
+    <script src="assets/js/email-validation.js"></script>
     <script src="assets/js/index.js"></script>
   </body>
 </html>

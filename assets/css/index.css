@@ -288,3 +288,54 @@ button[type="submit"]:hover {
   background-color: #eef0ed;
 }
 
+/* ============================================================
+   Responsive — móvil (≤768px)
+   Solo afecta a pantallas pequeñas; escritorio intacto.
+   ============================================================ */
+
+@media (max-width: 768px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  body {
+    padding: 16px;
+  }
+
+  .landing {
+    max-width: 100%;
+    padding: 32px 24px;
+    gap: 24px;
+  }
+
+  .logo img {
+    max-width: 180px;
+  }
+
+  .modal-overlay {
+    padding: 16px;
+  }
+
+  .container,
+  .container2 {
+    max-width: 100%;
+    padding: 32px 24px;
+    max-height: calc(100vh - 32px);
+    overflow-y: auto;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .subtitle {
+    margin-bottom: 24px;
+  }
+
+  .modal-close {
+    font-size: 1.6rem;
+    padding: 6px 10px;
+  }
+}
+
