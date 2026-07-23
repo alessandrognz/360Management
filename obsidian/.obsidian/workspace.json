@@ -4,21 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "7af7fa858118e77d",
+        "id": "4a25ce77cb7d023e",
         "type": "tabs",
         "children": [
           {
-            "id": "19d010d966e8290e",
+            "id": "640d1e1eaa9689be",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "docs/arquitectura.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "arquitectura"
+              "title": "Nueva pestaña"
             }
           }
         ]
@@ -184,9 +180,15 @@
       "claude-code-skills:Open skills panel": false
     }
   },
-  "active": "19d010d966e8290e",
+  "active": "640d1e1eaa9689be",
   "lastOpenFiles": [
     "Inicio.md",
+    "docs/deuda-tecnica.md",
+    "docs/base-de-datos.md",
+    "docs/arquitectura.md",
+    "tareas/bloque-5-funcionalidades-futuras.md",
+    "tareas/bloque-4-validacion-mensajes.md",
+    "tareas/bloque-3-panel-session.md",
     "semanas/semana-2026-07-20.md",
     "semanas/semana-2026-07-20.md.tmp.9220.cea5a1f303c5",
     "semanas/semana-2026-07-19.md.tmp.9220.bc6538ad006d",
@@ -208,16 +210,10 @@
     "2026-07-20.md",
     "Sin título.canvas",
     "tareas/bloque-2-estructura-reutilizable.md",
-    "tareas/bloque-4-validacion-mensajes.md",
-    "tareas/bloque-3-panel-session.md",
     "semanas/semana-2026-07-19.md",
-    "tareas/bloque-5-funcionalidades-futuras.md",
-    "docs/base-de-datos.md",
-    "docs/arquitectura.md",
     "tareas/bloque-1-sesion-seguridad.md",
     "paginas/settings-php.md",
     "paginas/session-php.md",
-    "docs/deuda-tecnica.md",
     "paginas/index.md",
     "paginas/tasks-php.md",
     "README.md",

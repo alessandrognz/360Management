@@ -273,6 +273,27 @@ main {
 .btn-primary {
   background-color: #4a6741;
   color: #ffffff;
+  box-shadow: 0 1px 3px rgba(74, 103, 65, 0.25);
+}
+
+.btn-primary:hover {
+  background-color: #3d5635;
+  box-shadow: 0 2px 8px rgba(74, 103, 65, 0.3);
+}
+
+.btn-primary:active {
+  background-color: #354a2e;
+  box-shadow: none;
+}
+
+.btn-primary:focus-visible {
+  outline: 2px solid #4a6741;
+  outline-offset: 2px;
+}
+
+.btn-sm {
+  padding: 8px 18px;
+  font-size: 0.875rem;
 }
 
 .btn {
@@ -335,6 +356,38 @@ main {
 .user-row:hover {
   background-color: #eef0ed;
 }
+
+.user-row--inactive {
+  opacity: 0.55;
+}
+
+.user-row--inactive:hover {
+  background-color: #f7f8f6;
+}
+
+/* Indicador activo / inactivo */
+
+.user-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.user-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.user-status--on  { color: #4a6741; }
+.user-status--on  .user-status-dot { background-color: #4a6741; box-shadow: 0 0 0 2px #c9e8d0; }
+.user-status--off { color: #9ca3af; }
+.user-status--off .user-status-dot { background-color: #d1d5db; }
 
 .user-checkbox {
   width: 16px;
@@ -427,6 +480,34 @@ main {
   cursor: not-allowed;
 }
 
+/* Botón "Editar detalles" — espejo verde del btn-icon-danger */
+.btn-icon-edit {
+  padding: 6px 14px;
+  background-color: #ffffff;
+  color: #4a6741;
+  border: 1px solid #bfe0c8;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.btn-icon-edit:hover {
+  background-color: #4a6741;
+  color: #ffffff;
+  border-color: #4a6741;
+}
+
+/* Agrupa los botones de acción de cada fila de usuario */
+.user-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
 /* ——— Ajustes (settings.php) ——— */
 
 .settings-profile-card {
@@ -490,7 +571,9 @@ main {
   font-size: 0.95rem;
   font-weight: 700;
   color: #111827;
-  margin-bottom: 12px;
+  padding-bottom: 14px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #e2e8df;
 }
 
 .settings-danger-bar {
@@ -525,14 +608,29 @@ main {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 8px;
-  max-width: 360px;
+  gap: 0;
+  width: 100%;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 4px;
+}
+
+.settings-divider {
+  border: none;
+  border-top: 1px solid #e2e8df;
+  margin: 20px 0;
 }
 
 .form-label {
-  font-size: 0.8rem;
+  display: block;
+  font-size: 0.82rem;
   font-weight: 600;
   color: #374151;
+  margin-bottom: 6px;
 }
 
 .form-input {
@@ -543,20 +641,24 @@ main {
   font-family: inherit;
   font-size: 0.9rem;
   color: #111827;
-  margin-bottom: 8px;
+  background-color: #f9faf8;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
 }
 
+.form-input:focus,
 .form-input:focus-visible {
-  outline: 2px solid #4a6741;
-  outline-offset: 1px;
+  outline: none;
   border-color: #4a6741;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(74, 103, 65, 0.12);
 }
 
 .settings-actions {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-top: 4px;
+  margin-top: 14px;
+  margin-bottom: 2px;
 }
 
 .settings-message {
@@ -664,20 +766,235 @@ main > section:last-child {
   position: absolute;
   top: 14px;
   right: 14px;
-  background: none;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f3f4f6;
   border: none;
-  font-size: 1.4rem;
-  color: #9ca3af;
+  border-radius: 50%;
+  font-size: 1.15rem;
+  color: #6b7280;
   cursor: pointer;
+  padding: 0;
   line-height: 1;
-  padding: 4px 8px;
-  border-radius: 4px;
-  width: auto;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .modal-close:hover {
-  color: #374151;
-  background-color: #f3f4f6;
+  color: #111827;
+  background-color: #e5e7eb;
+}
+
+/* ——— Cabecera del modal ——— */
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e2e8df;
+  flex-wrap: wrap;
+}
+
+.modal-header-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #eef2ec;
+  border: 2px solid #bfe0c8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.modal-header-icon img {
+  width: 28px;
+  height: 28px;
+  object-fit: cover;
+  opacity: 0.75;
+}
+
+.modal-header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
+}
+
+.modal-header h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0;
+}
+
+.modal-header-sub {
+  font-size: 0.8rem;
+  color: #6b7280;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ——— Campos con más espacio dentro del modal ——— */
+
+.modal-container .task-form .form-field {
+  margin-bottom: 16px;
+}
+
+/* ——— Bloque "Contraseña opcional" ——— */
+
+.modal-section--optional {
+  background-color: #f7f8f6;
+  border: 1px solid #e2e8df;
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+}
+
+.modal-section--optional .form-field {
+  margin-bottom: 0;
+}
+
+.modal-section-label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+}
+
+/* Inputs bloqueados (readonly) dentro del modal */
+
+.modal-container .form-input[readonly] {
+  background-color: #f7f8f6;
+  color: #6b7280;
+  cursor: default;
+  border-color: #e2e8df;
+}
+
+.modal-container .form-input[readonly]:focus,
+.modal-container .form-input[readonly]:focus-visible {
+  border-color: #e2e8df;
+  box-shadow: none;
+  background-color: #f7f8f6;
+}
+
+/* Botones de modo — "Editar datos" / "No editar datos" */
+
+.btn-modal-edit[hidden],
+.btn-modal-cancel[hidden] {
+  display: none;
+}
+
+.btn-modal-edit {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 13px;
+  background-color: #f0f4ef;
+  border: 1.5px dashed #bfe0c8;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #4a6741;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background-color 0.15s ease, border-color 0.15s ease, border-style 0.15s ease;
+}
+
+.btn-modal-edit:hover {
+  background-color: #e5ede3;
+  border-color: #4a6741;
+  border-style: solid;
+}
+
+/* Botón "No editar datos" */
+
+@keyframes cancel-shake {
+  0%   { transform: translateX(0) rotate(0deg); }
+  20%  { transform: translateX(-4px) rotate(-6deg); }
+  40%  { transform: translateX(4px) rotate(6deg); }
+  60%  { transform: translateX(-3px) rotate(-4deg); }
+  80%  { transform: translateX(3px) rotate(4deg); }
+  100% { transform: translateX(0) rotate(0deg); }
+}
+
+.btn-modal-cancel {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 13px;
+  background-color: #f9fafb;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #6b7280;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-modal-cancel:hover {
+  background-color: #fef2f2;
+  border-color: #fca5a5;
+  color: #dc2626;
+}
+
+.btn-modal-cancel:hover .btn-cancel-icon {
+  animation: cancel-shake 0.35s ease;
+}
+
+.btn-modal-cancel:active {
+  transform: scale(0.96);
+}
+
+/* Botón de confirmación a ancho completo en el modal */
+
+.modal-container .add {
+  width: 100%;
+  margin-top: 4px;
+}
+
+.modal-container .add:disabled {
+  background-color: #e5e7eb;
+  color: #9ca3af;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Separación visual antes de la zona de peligro */
+
+.modal-danger-zone {
+  margin-top: 24px;
+}
+
+/* Dentro del modal la barra de peligro se apila verticalmente */
+
+.modal-danger-zone .settings-danger-bar {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  padding: 16px 18px;
+}
+
+.modal-danger-zone .settings-danger-bar form,
+.modal-danger-zone .settings-danger-bar .btn {
+  width: 100%;
+  text-align: center;
 }
 
 .task-section {
@@ -1159,4 +1476,448 @@ main > section:last-child {
 .selected-item .remove-item:hover {
   background-color: #b91c1c;
   color: #ffffff;
+}
+
+/* ——— Selector de fecha y hora (campo "Fecha límite") ——— */
+
+.dtp {
+  position: relative;
+}
+
+.dtp-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  background-color: #ffffff;
+  color: #111827;
+}
+
+.dtp-value.is-placeholder {
+  color: #9ca3af;
+}
+
+.dtp-cal-icon {
+  width: 18px;
+  height: 18px;
+  color: #4a6741;
+  flex-shrink: 0;
+}
+
+.dtp-trigger:focus-visible {
+  outline: 2px solid #4a6741;
+  outline-offset: 1px;
+  border-color: #4a6741;
+}
+
+.dtp-trigger--error {
+  border-color: #b91c1c;
+}
+
+.dtp-pop {
+  position: fixed;
+  z-index: 300;
+  width: 300px;
+  max-width: calc(100vw - 16px);
+  max-height: calc(100vh - 16px);
+  overflow-y: auto;
+  background-color: #ffffff;
+  border: 1px solid #e2e8df;
+  border-radius: 12px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
+  padding: 14px;
+}
+
+.dtp-pop[hidden] {
+  display: none;
+}
+
+.dtp-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.dtp-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.dtp-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #e2e8df;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #374151;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.dtp-nav:hover:not(:disabled) {
+  background-color: #eef0ed;
+  color: #4a6741;
+}
+
+.dtp-nav:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.dtp-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  margin-bottom: 4px;
+}
+
+.dtp-weekdays span {
+  text-align: center;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #9ca3af;
+  text-transform: uppercase;
+}
+
+.dtp-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.dtp-day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 1;
+  border: none;
+  background: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.82rem;
+  color: #374151;
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.dtp-day:hover:not(.is-disabled):not(.dtp-empty) {
+  background-color: #eef2ec;
+  color: #4a6741;
+}
+
+.dtp-empty {
+  visibility: hidden;
+  cursor: default;
+}
+
+.dtp-day.is-disabled {
+  color: #d1d5db;
+  cursor: not-allowed;
+}
+
+.dtp-day.is-today {
+  box-shadow: inset 0 0 0 1.5px #bcd0b4;
+  font-weight: 700;
+}
+
+.dtp-day.is-selected {
+  background-color: #4a6741 !important;
+  color: #ffffff !important;
+  font-weight: 700;
+}
+
+.dtp-time {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e2e8df;
+}
+
+.dtp-time-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.dtp-time-selects {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dtp-colon {
+  font-weight: 700;
+  color: #374151;
+}
+
+.dtp-select {
+  padding: 7px 10px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: #374151;
+  background-color: #ffffff;
+  cursor: pointer;
+}
+
+.dtp-select:focus {
+  outline: none;
+  border-color: #4a6741;
+}
+
+.dtp-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.dtp-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.dtp-btn-ghost {
+  background: none;
+  color: #6b7280;
+}
+
+.dtp-btn-ghost:hover {
+  color: #b91c1c;
+}
+
+.dtp-btn-primary {
+  background-color: #4a6741;
+  color: #ffffff;
+}
+
+.dtp-btn-primary:hover {
+  background-color: #3d5635;
+}
+
+/* ============================================================
+   Responsive — móvil (≤768px)
+   Todo lo de aquí solo afecta a pantallas pequeñas.
+   La versión de escritorio (>768px) queda intacta.
+   ============================================================ */
+
+/* Hamburguesa y backdrop: no existen visualmente en escritorio */
+.nav-toggle,
+.nav-backdrop {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  /* El sidebar deja de reservar espacio: pasa a ser drawer */
+  body {
+    padding-left: 0;
+  }
+
+  main {
+    max-width: 100%;
+    padding: 64px 16px 24px;
+  }
+
+  /* ——— Botón hamburguesa (fijo, arriba a la izquierda) ——— */
+  .nav-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 210;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    background-color: #ffffff;
+    border: 1px solid #e2e8df;
+    border-radius: 10px;
+    color: #374151;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  }
+
+  .nav-toggle svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  /* ——— Sidebar como drawer deslizante ——— */
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    z-index: 200;
+    box-shadow: 0 0 24px rgba(0, 0, 0, 0.18);
+  }
+
+  .sidebar.sidebar--open {
+    transform: translateX(0);
+  }
+
+  .sidebar-item {
+    padding: 12px 12px;
+    font-size: 0.95rem;
+  }
+
+  /* ——— Backdrop ——— */
+  .nav-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.45);
+    z-index: 190;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+  }
+
+  .nav-backdrop.is-visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* ——— Títulos ——— */
+  .page-title {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+  }
+
+  .bienvenida {
+    font-size: 1.5rem;
+  }
+
+  .inicio-hero {
+    gap: 16px;
+  }
+
+  /* ——— Cabecera de tareas: apilar título y botón ——— */
+  .tasks-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+  }
+
+  .tasks-header .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* ——— Filas de tareas: apilar en vertical ——— */
+  .task-row {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 6px 10px;
+  }
+
+  .task-main {
+    flex: 1 1 100%;
+  }
+
+  .task-title,
+  .task-desc {
+    white-space: normal;
+  }
+
+  .task-dates {
+    align-items: flex-start;
+    white-space: normal;
+  }
+
+  /* ——— Tarjetas widget a ancho completo ——— */
+  .task-widget-card {
+    width: 100%;
+    min-width: 0;
+  }
+
+  /* ——— Filas de usuario (admin): apilar ——— */
+  .user-row {
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    padding: 12px 14px;
+  }
+
+  .user-info {
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  /* user-actions envuelve tanto el botón editar como el form de eliminar */
+  .user-actions {
+    margin-left: auto;
+  }
+
+  .user-email {
+    flex: 1 1 100%;
+    order: 5;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
+
+  .user-id {
+    order: 6;
+  }
+
+  .user-date {
+    order: 7;
+    white-space: normal;
+  }
+
+  .btn-icon-danger {
+    min-height: 40px;
+  }
+
+  /* ——— Ajustes: apilar barra de zona peligrosa ——— */
+  .settings-danger-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .settings-danger-bar .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .settings-form {
+    max-width: 100%;
+  }
+
+  /* ——— Modal casi a pantalla completa ——— */
+  .modal-container {
+    margin: 16px;
+    padding: 28px 20px;
+    max-height: calc(100vh - 32px);
+  }
+
+  .modal-close {
+    font-size: 1.6rem;
+    padding: 6px 10px;
+  }
 }

@@ -21,6 +21,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['accion'] ?? '') === 'cambi
     }
 }
 
+// EMAIL
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['accion'] ?? '') === 'cambiar_email') {
+    $seccion_mensaje = 'perfil';
+    $nuevo_email = trim($_POST['email'] ?? '');
+
+    if ($nuevo_email === '') {
+        $error = true;
+        $mensaje = 'El email no puede estar vacío.'; // CAMBIO: mensaje copiado del bloque de nombre
+    } else {
+        $crud_user->CAMBIAR_EMAIL((int) $_SESSION['id_usuario'], $nuevo_email);
+        $_SESSION['email'] = $nuevo_email;
+        $mensaje = 'Email actualizado correctamente.'; // CAMBIO: mensaje copiado del bloque de nombre
+    }
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['accion'] ?? '') === 'cambiar_contrasena') {
     $seccion_mensaje = 'contrasena';
     $contrasena_actual = $_POST['contrasena_actual'] ?? '';
@@ -73,10 +88,25 @@ $usuario = $crud_user->MOSTRAR_USUARIO((int) $_SESSION['id_usuario']);
 
                 <form method="post" action="settings.php" class="settings-form">
                     <input type="hidden" name="accion" value="cambiar_nombre">
-                    <label class="form-label" for="nombre">Nombre</label>
-                    <input type="text" id="nombre" name="nombre" class="form-input" value="<?= htmlspecialchars($usuario['nombre']) ?>" required>
+                    <div class="form-field">
+                        <label class="form-label" for="nombre">Nombre</label>
+                        <input type="text" id="nombre" name="nombre" class="form-input" value="<?= htmlspecialchars($usuario['nombre']) ?>" required>
+                    </div>
                     <div class="settings-actions">
-                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                        <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
+                    </div>
+                </form>
+
+                <hr class="settings-divider">
+
+                <form method="post" action="settings.php" class="settings-form">
+                    <input type="hidden" name="accion" value="cambiar_email">
+                    <div class="form-field">
+                        <label class="form-label" for="email">Correo electrónico</label>
+                        <input type="email" id="email" name="email" class="form-input" value="<?= htmlspecialchars($usuario['email']) ?>" required>
+                    </div>
+                    <div class="settings-actions">
+                        <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
                     </div>
                 </form>
             </section>
@@ -91,17 +121,20 @@ $usuario = $crud_user->MOSTRAR_USUARIO((int) $_SESSION['id_usuario']);
                 <form method="post" action="settings.php" class="settings-form">
                     <input type="hidden" name="accion" value="cambiar_contrasena">
 
-                    <label class="form-label" for="contrasena_actual">Contraseña actual</label>
-                    <input type="password" id="contrasena_actual" name="contrasena_actual" class="form-input" placeholder="Introduce tu contraseña actual" required>
-
-                    <label class="form-label" for="contrasena_nueva">Nueva contraseña</label>
-                    <input type="password" id="contrasena_nueva" name="contrasena_nueva" class="form-input" placeholder="Mínimo 8 caracteres" required minlength="8">
-
-                    <label class="form-label" for="contrasena_confirmar">Repite la nueva contraseña</label>
-                    <input type="password" id="contrasena_confirmar" name="contrasena_confirmar" class="form-input" placeholder="Repite la nueva contraseña" required minlength="8">
-
+                    <div class="form-field">
+                        <label class="form-label" for="contrasena_actual">Contraseña actual</label>
+                        <input type="password" id="contrasena_actual" name="contrasena_actual" class="form-input" placeholder="Introduce tu contraseña actual" required>
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label" for="contrasena_nueva">Nueva contraseña</label>
+                        <input type="password" id="contrasena_nueva" name="contrasena_nueva" class="form-input" placeholder="Mínimo 8 caracteres" required minlength="8">
+                    </div>
+                    <div class="form-field">
+                        <label class="form-label" for="contrasena_confirmar">Repite la nueva contraseña</label>
+                        <input type="password" id="contrasena_confirmar" name="contrasena_confirmar" class="form-input" placeholder="Repite la nueva contraseña" required minlength="8">
+                    </div>
                     <div class="settings-actions">
-                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                        <button type="submit" class="btn btn-primary btn-sm">Guardar cambios</button>
                     </div>
                 </form>
             </section>
@@ -118,5 +151,6 @@ $usuario = $crud_user->MOSTRAR_USUARIO((int) $_SESSION['id_usuario']);
     </main>
     <?php $layout_part = 'footer';
     require 'includes/nav.php'; ?>
+    <script src="assets/js/email-validation.js"></script>
 </body>
 </html>

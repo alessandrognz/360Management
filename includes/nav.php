@@ -4,7 +4,15 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
 if ($layout_part === 'nav'):
 ?>
-<aside class="sidebar">
+<button type="button" class="nav-toggle" id="nav-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="sidebar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+</button>
+<div class="nav-backdrop" id="nav-backdrop"></div>
+<aside class="sidebar" id="sidebar">
     <div class="sidebar-brand">
         <img src="assets/icons/logo.png" alt="">
         <span>360Management</span>
@@ -54,4 +62,34 @@ if ($layout_part === 'nav'):
     <a href="#">Privacidad</a>
     <a href="#">Contacto</a>
 </footer>
+<script>
+(function () {
+    var toggle = document.getElementById('nav-toggle');
+    var sidebar = document.getElementById('sidebar');
+    var backdrop = document.getElementById('nav-backdrop');
+    if (!toggle || !sidebar) return;
+
+    function open() {
+        sidebar.classList.add('sidebar--open');
+        if (backdrop) backdrop.classList.add('is-visible');
+        toggle.setAttribute('aria-expanded', 'true');
+    }
+    function close() {
+        sidebar.classList.remove('sidebar--open');
+        if (backdrop) backdrop.classList.remove('is-visible');
+        toggle.setAttribute('aria-expanded', 'false');
+    }
+
+    toggle.addEventListener('click', function () {
+        if (sidebar.classList.contains('sidebar--open')) close(); else open();
+    });
+    if (backdrop) backdrop.addEventListener('click', close);
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') close();
+    });
+    sidebar.querySelectorAll('.sidebar-item').forEach(function (link) {
+        link.addEventListener('click', close);
+    });
+})();
+</script>
 <?php endif; ?>

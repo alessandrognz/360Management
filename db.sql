@@ -65,6 +65,35 @@ insert into puesto(id_departamento,nombre_puesto,descripcion_puesto) values
 ((select id_departamento from departamento where nombre_departamento = 'Legal y Calidad'),			'Auditor de Calidad',				'Verifica y garantiza el cumplimiento de estándares de calidad.');
 
 
+-- Tablas de tareas
+
+create table tareas(
+    id_tarea int auto_increment primary key,
+    id_usuario_creador int not null,
+    titulo varchar(150) not null,
+    descripcion_tarea varchar(500),
+    fecha_limite date,
+    es_general tinyint(1) default 0,
+    eliminado bit default 0,
+    constraint fk_usuario_creador_tarea foreign key(id_usuario_creador) references usuarios(id_usuario)
+);
+
+create table tareas_usuarios(
+    id int auto_increment primary key,
+    id_tarea int not null,
+    id_usuario int not null,
+    constraint fk_tarea_tareas_usuarios foreign key(id_tarea) references tareas(id_tarea),
+    constraint fk_usuario_tareas_usuarios foreign key(id_usuario) references usuarios(id_usuario)
+);
+
+create table tareas_departamento(
+    id int auto_increment primary key,
+    id_tarea int not null,
+    id_departamento int not null,
+    constraint fk_tarea_tareas_departamento foreign key(id_tarea) references tareas(id_tarea),
+    constraint fk_departamento_tareas_departamento foreign key(id_departamento) references departamento(id_departamento)
+);
+
 -- Procedures
 
 
@@ -178,9 +207,99 @@ DELIMITER ;
 DELIMITER //
 create procedure CAMBIAR_EMAIL(_id_usuario int ,_email varchar(50))
 begin
-	update usuarios 
+	update usuarios
     set email = _email
     where id_usuario = _id_usuario and eliminado = 0;
+end
+//
+DELIMITER ;
+
+DELIMITER //
+create procedure ACTIVAR_USUARIO(_id_usuario int)
+begin
+    update usuarios
+    set eliminado = 0
+    where id_usuario = _id_usuario;
+end
+//
+DELIMITER ;
+
+DELIMITER //
+create procedure INSERTAR_TAREA(_id_usuario_creador int, _titulo varchar(150), _descripcion_tarea varchar(500), _fecha_limite date, _es_general tinyint(1))
+begin
+    insert into tareas(id_usuario_creador, titulo, descripcion_tarea, fecha_limite, es_general)
+    values (_id_usuario_creador, _titulo, _descripcion_tarea, _fecha_limite, _es_general);
+
+    select last_insert_id() as insertado;
+end
+//
+DELIMITER ;
+
+DELIMITER //
+create procedure DESTINAR_A_USAURIO(_id_tarea int, _id_usuario int)
+begin
+    insert into tareas_usuarios(id_tarea, id_usuario)
+    values (_id_tarea, _id_usuario);
+end
+//
+DELIMITER ;
+
+DELIMITER //
+create procedure DESTINAR_A_DEPARTAMENTO(_id_tarea int, _id_departamento int)
+begin
+    insert into tareas_departamento(id_tarea, id_departamento)
+    values (_id_tarea, _id_departamento);
+end
+//
+DELIMITER ;
+
+DELIMITER //
+create procedure SELECT_TAREAS_GENERALES(_id_puesto int)
+begin
+    select t.id_tarea, t.titulo, t.descripcion_tarea, t.fecha_limite
+    from tareas t
+    join tareas_departamento td on t.id_tarea = td.id_tarea
+    join puesto p on td.id_departamento = p.id_departamento
+    where p.id_puesto = _id_puesto and t.eliminado = 0;
+end
+//
+DELIMITER ;
+
+DELIMITER //
+create procedure SELECT_TAREAS_PERSONALES(_id_usuario int)
+begin
+    select t.id_tarea, t.titulo, t.descripcion_tarea, t.fecha_limite
+    from tareas t
+    join tareas_usuarios tu on t.id_tarea = tu.id_tarea
+    where tu.id_usuario = _id_usuario and t.eliminado = 0;
+end
+//
+DELIMITER ;
+
+DELIMITER //
+create procedure SELECT_MIS_TAREAS(_id_usuario int)
+begin
+    select distinct t.id_tarea, t.titulo, t.descripcion_tarea, t.fecha_limite, t.es_general
+    from tareas t
+    join tareas_usuarios tu on t.id_tarea = tu.id_tarea
+    where tu.id_usuario = _id_usuario and t.eliminado = 0
+    union
+    select distinct t.id_tarea, t.titulo, t.descripcion_tarea, t.fecha_limite, t.es_general
+    from tareas t
+    join tareas_departamento td on t.id_tarea = td.id_tarea
+    join puesto p on td.id_departamento = p.id_departamento
+    join usuarios u on u.id_puesto = p.id_puesto
+    where u.id_usuario = _id_usuario and t.eliminado = 0;
+end
+//
+DELIMITER ;
+
+DELIMITER //
+create procedure LISTAR_DEPARTAMENTOS()
+begin
+    select id_departamento, nombre_departamento
+    from departamento
+    where eliminado = 0;
 end
 //
 DELIMITER ;
