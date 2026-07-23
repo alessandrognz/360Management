@@ -94,9 +94,43 @@ class CRUD_TAREAS
 
         return $departamentos;
     }
+
+    function UPDATE_TAREA(int $_id_tarea, string $_titulo, string $_descripcion_tarea,$fecha_limite){
+        global $Coneccion;
+
+        $comando = $Coneccion->prepare('CALL UPDATE_TAREA(?,?,?,?);');
+        $comando->bind_param('isss', $_id_tarea,$_titulo,$_descripcion_tarea,$fecha_limite);
+        $comando->execute();
+
+        $result = $comando->get_result();
+        $response = $result->fetch_all(MYSQLI_ASSOC);
+        $result->free();
+        $comando->close();
+        if(true_or_false($response)){
+            return "error";
+        } else {
+            return "todo bien";
+        }
+    }
+    
+    function ELIMINAR_TAREA(int $_id_tarea){
+        global $Coneccion;
+
+        $comando = $Coneccion->prepare('CALL ELIMINAR_TAREA(?);');
+        $comando->bind_param('i', $_id_tarea);
+        $comando->execute();
+
+        $result = $comando->get_result();
+        $response = $result->fetch_all(MYSQLI_ASSOC);
+        $result->free();
+        $comando->close();
+        if(true_or_false($response)){
+            return "error";
+        } else {
+            return "todo bien";
+        }
+    }
 }
 
-class TBL_TAREA extends CRUD_TAREAS
-{
-}
+
 ?>
